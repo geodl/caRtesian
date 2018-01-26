@@ -2,9 +2,11 @@ Package: caRtesian
 Title: An implementation of Cartesian Genetic Programming in R
 Version: 0.0.0.9000
 Authors@R: person("Ryan", "Porteous", email = "rp10@hw.ac.uk", role = c("aut", "cre"))
-Description: The package provides a provision in the area of bio-inspired computing by bringing Cartesian Genetic Programming to R.
+Description: The package provides a provision in the area of bio-inspired computing by 
+    bringing Cartesian Genetic Programming to R.
 Depends: R (>= 3.4.1)
-License: MIT LICENSE
+License: MIT + file LICENCE
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.0.1
+BugReports: https://github.com/porteous54/caRtesian/issues
