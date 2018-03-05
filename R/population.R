@@ -11,10 +11,12 @@ initPopulation <- function(popsize, functionSet) {
 
     functionNodes <- generateFunctionNodes(nrows = nrows,
                                            ncols = ncols,
-                                           levelsBack = 2)
+                                           levelsBack = levelsBack)
 
-    startOutputID <- nrow(inputNodes) + nrows * ncols
-    outputNodes <- generateOutputs(startID = startOutputID)
+    maxInputID <- tail(functionNodes, 1)$chromoID
+    startOutputID <- maxInputID + 1
+    outputNodes <- generateOutputs(startID = startOutputID,
+                                   maxInputID = maxInputID)
 
     #population[[i]] <- combination of three above
   }
@@ -105,11 +107,16 @@ generateFunctionNodes <- function(nrows, ncols, levelsBack) {
 #' The value field of each row is set as NA initially.
 #'
 #' @param startID the starting chromoID
+#' @param maxInputID the maximum chromoID that can be accessed
 #'
 #' @return a data frame containing the output nodes
-generateOutputs <- function(startID) {
-  return(data.frame(chromoID = startID:outputSize,
-                    value = rep(as.numeric(NA), outputSize)))
+generateOutputs <- function(startID, maxInputID) {
+
+  chromoID <- seq(from = startID, by = 1, length.out = outputSize)
+  value <- rep(as.numeric(NA), outputSize)
+  inputs <- sample(1:maxInputID, size = 1)
+
+  return(data.frame(chromoID = chromoID, value = value, inputs = inputs)
 }
 
 #' createFunctionNodesStructure
