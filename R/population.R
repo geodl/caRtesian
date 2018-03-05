@@ -7,7 +7,7 @@ initPopulation <- function(popsize, functionSet) {
   levelsBack <- 2
 
   inputNodes <- generateInputs()
-  for (i in popsize) {
+  for (i in 1:popsize) {
 
     functionNodes <- generateFunctionNodes(nrows = nrows,
                                            ncols = ncols,
@@ -18,7 +18,9 @@ initPopulation <- function(popsize, functionSet) {
     outputNodes <- generateOutputs(startID = startOutputID,
                                    maxInputID = maxInputID)
 
-    #population[[i]] <- combination of three above
+    population[[i]] <- list(inputNodes = inputNodes,
+                            functionNodes = functionNodes,
+                            outputNodes = outputNodes)
   }
 
   return(population)
