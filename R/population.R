@@ -7,16 +7,20 @@ initPopulation <- function(popsize, functionSet) {
   levelsBack <- 2
 
   inputNodes <- generateInputs()
-  for (i in popsize) {
+  for (i in 1:popsize) {
 
     functionNodes <- generateFunctionNodes(nrows = nrows,
                                            ncols = ncols,
-                                           levelsBack = 2)
+                                           levelsBack = levelsBack)
 
-    startOutputID <- nrow(inputNodes) + nrows * ncols
-    outputNodes <- generateOutputs(startID = startOutputID)
+    maxInputID <- tail(functionNodes, 1)$chromoID
+    startOutputID <- maxInputID + 1
+    outputNodes <- generateOutputs(startID = startOutputID,
+                                   maxInputID = maxInputID)
 
-    #population[[i]] <- combination of three above
+    population[[i]] <- list(inputNodes = inputNodes,
+                            functionNodes = functionNodes,
+                            outputNodes = outputNodes)
   }
 
   return(population)
@@ -79,17 +83,23 @@ generateFunctionNodes <- function(nrows, ncols, levelsBack) {
       functionNodes[rowFunctionNodes, ] <-
         makeFunctionNode(chromoID = j, validInputs = c(validInputIDs))
 
+      #Increment row counter
       rowFunctionNodes <- rowFunctionNodes + 1
+
+      #Add chromaID of the newly created node into a vector
       mostRecentLevel <- c(mostRecentLevel, j)
     }
 
     #Replace the no longer valid row of chromoIDs with the most recent level
-    updateValidInputs(row = rowValidInputIDs,
+    validInputIDs <- updateValidInputs(row = rowValidInputIDs,
                       level = mostRecentLevel,
                       validInputs = validInputIDs)
 
-    #If reached the end of validInputIDs
-    if (rowValidInputIDs == nrow(validInputIDs)) {
+    #If the row counter is not at the end of the matrix
+    if (rowValidInputIDs != nrow(validInputIDs)) {
+      #Increment row counter
+      rowValidInputIDs <- rowValidInputIDs + 1
+      } else {
       #Reset row counter
       rowValidInputIDs <- 2
     }
@@ -105,11 +115,16 @@ generateFunctionNodes <- function(nrows, ncols, levelsBack) {
 #' The value field of each row is set as NA initially.
 #'
 #' @param startID the starting chromoID
+#' @param maxInputID the maximum chromoID that can be accessed
 #'
 #' @return a data frame containing the output nodes
-generateOutputs <- function(startID) {
-  return(data.frame(chromoID = startID:outputSize,
-                    value = rep(as.numeric(NA), outputSize)))
+generateOutputs <- function(startID, maxInputID) {
+
+  chromoID <- seq(from = startID, by = 1, length.out = outputSize)
+  value <- rep(as.numeric(NA), outputSize)
+  inputs <- sample(1:maxInputID, size = outputSize)
+
+  return(data.frame(chromoID = chromoID, value = value, inputs = inputs))
 }
 
 #' createFunctionNodesStructure
@@ -184,6 +199,8 @@ makeFunctionNode <- function(chromoID, validInputs) {
 #' @param level the new valid chromoIDs
 #' @param validInputs a matrix containing the valid input chromoIDs
 #'
+#' @return a matrix containing the updated valid input chromoIDs
+
 #' @examples
 #' updateValidInputIDs(2, c(3, 4, 5))
 #' updateValidInputIDs(4, c(7, 8))
@@ -192,4 +209,6 @@ updateValidInputs <- function(row, level, validInputs) {
   #Replace the no longer valid chromoIDs with the
   #most recent valid chromoIDs
   validInputs[row,] <- level
+
+  return(validInputs)
 }
