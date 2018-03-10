@@ -1,11 +1,12 @@
-cgp <- function(dataset = NULL) {
+cgp <- function(dataset = NULL,
+                functionSet,
+                stopCondition = timeCondition(5 * 60)) {
 
   #Make sure dataset is provided
   if (is.null(dataset)) {
     stop("'dataset' parameter was NULL. Please provide a dataset to use")
   }
 
-  dataset <- read.csv("./data/sin vs time.csv")
   dataset <- read.csv("./data/x_squared_minus_y.csv")
   outputSize <- 1
   inputSize <- ncol(dataset) - outputSize
@@ -15,4 +16,6 @@ cgp <- function(dataset = NULL) {
 
   population <- initPopulation(popsize, functionSet = functionSet)
 
+  #Return results to top level
+  #return()
 }
