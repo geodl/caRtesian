@@ -1,4 +1,4 @@
-initPopulation <- function(popsize, functionSet) {
+initPopulation <- function(popsize) {
 
   population <- vector(mode = "list", length = popsize)
 
@@ -9,7 +9,8 @@ initPopulation <- function(popsize, functionSet) {
   inputNodes <- generateInputs(inputSize)
   for (i in 1:popsize) {
 
-    functionNodes <- generateFunctionNodes(nrows = nrows,
+    functionNodes <- generateFunctionNodes(startID = nrow(inputNodes) + 1,
+                                           nrows = nrows,
                                            ncols = ncols,
                                            levelsBack = levelsBack)
 
@@ -212,7 +213,7 @@ updateValidInputs <- function(row, level, validInputs) {
 
   #Replace the no longer valid chromoIDs with the
   #most recent valid chromoIDs
-  validInputs[row,] <- level
+  validInputs[row, ] <- level
 
   return(validInputs)
 }
