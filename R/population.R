@@ -48,6 +48,7 @@ generateInputs <- function() {
 #' field is the ID a random function chosen from the functionSet. The input
 #' field is a vector of valid nodes to use as arguments to the function field.
 #'
+#' @param startID the starting chromoID
 #' @param nrows the number of rows required in the chromosome
 #' @param ncols the number of columns required in the chromosome
 #' @param levelsBack the number of columns back that each column can access
@@ -57,7 +58,7 @@ generateInputs <- function() {
 #' @examples
 #' generateFunctionNodes(2, 4, 2)
 #' generateFunctionNodes(nrows = 3, ncols = 4, levelsBack = 3)
-generateFunctionNodes <- function(nrows, ncols, levelsBack) {
+generateFunctionNodes <- function(startID, nrows, ncols, levelsBack) {
 
   functionNodes <- createFunctionNodesStructure(nrows * ncols)
 
@@ -65,13 +66,13 @@ generateFunctionNodes <- function(nrows, ncols, levelsBack) {
 
   #Create a matrix containing the chromoIDs of the nodes that can be used as
   #input for each node
-  validInputIDs <- matrix(1:inputSize,
+  validInputIDs <- matrix(1:startID,
                           nrow = levelsBack + 1,
                           ncol = nrows,
                           byrow = TRUE)
   rowValidInputIDs <- 2
 
-  for (i in seq(from = inputSize + 1, to = ncols * nrows + inputSize,
+  for (i in seq(from = startID + 1, to = ncols * nrows + startID,
                by = nrows)) {
 
     #Reset the mostRecentLevel
