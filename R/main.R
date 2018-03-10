@@ -14,7 +14,7 @@ cgp <- function(dataset = NULL,
   functionSet <- arithmeticSet()
   popsize <- 5
 
-  population <- initPopulation(popsize, functionSet = functionSet)
+  population <- initPopulation(popsize)
 
   #Return results to top level
   #return()
