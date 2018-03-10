@@ -6,7 +6,7 @@ initPopulation <- function(popsize, functionSet) {
   ncols <- 3
   levelsBack <- 2
 
-  inputNodes <- generateInputs()
+  inputNodes <- generateInputs(inputSize)
   for (i in 1:popsize) {
 
     functionNodes <- generateFunctionNodes(nrows = nrows,
@@ -18,6 +18,8 @@ initPopulation <- function(popsize, functionSet) {
     outputNodes <- generateOutputs(startID = startOutputID,
                                    maxInputID = maxInputID)
 
+    #Combine the three types of nodes into a list and store it as an
+    #element of the population list
     population[[i]] <- list(inputNodes = inputNodes,
                             functionNodes = functionNodes,
                             outputNodes = outputNodes)
@@ -32,9 +34,10 @@ initPopulation <- function(popsize, functionSet) {
 #' given a unique ID (chromoID) which is unique within the entire chromosome.
 #' The value field of each row is set as NA initially.
 #'
+#' @param inputSize the number of input nodes required
+#'
 #' @return a data frame containing the input nodes
-generateInputs <- function() {
-
+generateInputs <- function(inputSize) {
   return(data.frame(chromoID = 1:inputSize,
                     value = rep(as.numeric(NA), inputSize)))
 }
