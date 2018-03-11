@@ -1,3 +1,11 @@
+calculateInputSize <- function(dataset, outputSize) {
+  return(ncol(dataset) - outputSize)
+}
+
+calculateOutputSize <- function(dataset) {
+  return(1)
+}
+
 #' transformDataset
 #'
 #' Transforms the given data frame so that the columns specified by outputColumns
