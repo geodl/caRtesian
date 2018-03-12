@@ -127,7 +127,7 @@ generateFunctionNodes <- function(startID, nrows, ncols, levelsBack) {
 #' @return a data frame containing the output nodes
 generateOutputs <- function(startID, maxInputID, outputSize) {
 
-  chromoID <- seq(from = startID, by = 1, length.out = outputSize)
+  chromoID <- seq.int(from = startID, by = 1, length.out = outputSize)
   value <- rep(as.numeric(NA), outputSize)
   inputs <- sample(1:maxInputID, size = outputSize)
 
