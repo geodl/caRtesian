@@ -17,7 +17,8 @@ initPopulation <- function(popsize) {
     maxInputID <- tail(functionNodes, 1)$chromoID
     startOutputID <- maxInputID + 1
     outputNodes <- generateOutputs(startID = startOutputID,
-                                   maxInputID = maxInputID)
+                                   maxInputID = maxInputID,
+                                   outputSize = outputSize)
 
     #Combine the three types of nodes into a list and store it as an
     #element of the population list
@@ -121,9 +122,10 @@ generateFunctionNodes <- function(startID, nrows, ncols, levelsBack) {
 #'
 #' @param startID the starting chromoID
 #' @param maxInputID the maximum chromoID that can be accessed
+#' @param outputSize the number of output nodes required
 #'
 #' @return a data frame containing the output nodes
-generateOutputs <- function(startID, maxInputID) {
+generateOutputs <- function(startID, maxInputID, outputSize) {
 
   chromoID <- seq(from = startID, by = 1, length.out = outputSize)
   value <- rep(as.numeric(NA), outputSize)
