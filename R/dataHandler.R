@@ -20,7 +20,7 @@ calculateOutputSize <- function(dataset) {
 #' transformDataset(dataset, 4)
 transformDataset <- function(dataset, outputColumns) {
 
-  if(!checkOutputBounds(ncol(dataset), outputColumns)) {
+  if (!checkOutputBounds(ncol(dataset), outputColumns)) {
     stop("The values specified in outputColumns are not in the correct range")
   }
 
@@ -54,11 +54,11 @@ transformDataset <- function(dataset, outputColumns) {
 checkOutputBounds <- function(numCol, outputColumns) {
 
   #Check there will still be an input column if using these outputColumns
-  if(ncol(dataset) - length(outputColumns) < 1) {
+  if (numCol - length(outputColumns) < 1) {
     stop("Using the specified values for outputColumns will result in no
          input columns.")
   }
 
   #Check each integer correctly specifies a column
-  return(all(outputColumns <= ncol(dataset) & outputColumns >= 1))
+  return(all(outputColumns <= numCol & outputColumns >= 1))
 }
