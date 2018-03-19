@@ -81,13 +81,14 @@ generateFunctionNodes <- function(startID, nrows, ncols, levelsBack) {
 
   #Create a matrix containing the chromoIDs of the nodes that can be used as
   #input for each node
-  validInputIDs <- matrix(1:startID,
+  validInputIDs <- matrix(1:(startID-1),
                           nrow = levelsBack + 1,
-                          ncol = nrows,
+                          ncol = max(startID-1, nrows),
                           byrow = TRUE)
+
   rowValidInputIDs <- 2
 
-  for (i in seq(from = startID + 1, to = ncols * nrows + startID,
+  for (i in seq(from = startID, to = ncols * nrows + startID - 1,
                by = nrows)) {
 
     #Reset the mostRecentLevel
