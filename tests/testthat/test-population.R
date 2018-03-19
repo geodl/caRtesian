@@ -1,5 +1,5 @@
 library(caRtesian)
-context("Population")
+context("population")
 
 functionSet <<- arithmeticSet()
 
@@ -21,7 +21,7 @@ test_that("generateInputs returns a data frame of the correct structure", {
   expect_equal(ncol(inputs2), maxColumns)
   expect_equal(nrow(inputs2), inputSize2)
 
-  expect_is(inputs1, "data.frame")
+  expect_is(inputs2, "data.frame")
 })
 
 test_that("generateFunctionNodes returns a data frame of the
