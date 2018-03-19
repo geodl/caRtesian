@@ -32,16 +32,26 @@ initPopulation <- function(popsize) {
 
 #' generateInputs
 #'
-#' Generates a data frame containing a row for each input attribute. Each row is
-#' given a unique ID (chromoID) which is unique within the entire chromosome.
-#' The value field of each row is set as NA initially.
+#' Generates a data frame containing a row for each input attribute and another
+#' row used to store numeric constants. Each row isgiven a unique ID (chromoID)
+#' which is unique within the entire chromosome. The value field of each row is
+#' set as NA initially except for the numeric constant which is initialised.
 #'
 #' @param inputSize the number of input nodes required
 #'
 #' @return a data frame containing the input nodes
 generateInputs <- function(inputSize) {
-  return(data.frame(chromoID = 1:inputSize,
-                    value = rep(as.numeric(NA), inputSize)))
+
+  inputSize <- 3
+  inputSize <- inputSize + 1
+
+  inputNodes <- data.frame(chromoID = 1:inputSize,
+             value = rep(as.numeric(NA), inputSize))
+
+  inputNodes[inputSize, 2] <- runif(1, min=-10, max = 10)
+
+
+  return(inputNodes)
 }
 
 #' generateFunctionNodes
