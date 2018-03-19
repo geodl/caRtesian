@@ -196,7 +196,7 @@ makeFunctionNode <- function(chromoID, validInputs) {
 
   #Select the number of values that satisfies the arity of the chosen function
   #by randomly choosing a valid input node
-  inputs <- sample(validInputs, size = arity, replace = TRUE)
+  inputs <- sampleWithoutBiasOrNA(validInputs, size = arity, replace = TRUE)
 
   #Create a node and store the fields inside
   node <- createFunctionNodesStructure(rowsRequired = 1)
@@ -206,6 +206,33 @@ makeFunctionNode <- function(chromoID, validInputs) {
   node[1, ]$inputs <- list(inputs)
 
   return(node)
+}
+
+#' sampleWithoutBiasOrNA
+#'
+#' Perform the sample function after removing any duplicate or NA values from
+#' the vector
+#'
+#' @param x the vector to choose from
+#' @param size the number of items to choose
+#' @param replace should sampling be with replacement?
+#'
+#' @return the result of the sample function on x
+#' @examples
+#' sampleWithoutBiasOrNA(c(1, 2, 3, 1), 2)
+#' sampleWithoutBiasOrNA(c(3, 4, NA), 4, replace = TRUE)
+sampleWithoutBiasOrNA <- function(x, size, replace = FALSE) {
+
+  #Convert matrix to vector
+  x <- c(x)
+
+  #Remove any NA values
+  x <- x[!is.na(x)]
+
+  #Remove duplicates to avoid bias
+  x <- unique(x)
+
+  return(sample(x, size = size, replace = replace))
 }
 
 #' updateValidInputs
@@ -223,6 +250,11 @@ makeFunctionNode <- function(chromoID, validInputs) {
 #' updateValidInputIDs(2, c(3, 4, 5), validInputs)
 #' updateValidInputIDs(4, c(7, 8), validInputs)
 updateValidInputs <- function(row, level, validInputs) {
+
+  #Add NAs to level so it can fit in the matrix
+  while(ncol(validInputs) > length(level)) {
+    level <- c(level, NA)
+  }
 
   #Replace the no longer valid chromoIDs with the
   #most recent valid chromoIDs
