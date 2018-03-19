@@ -35,6 +35,53 @@ multiply <- function(x, y) {
 divide <- function(x, y) {
   return (x / y)
 }
+
+#' trigonometricSet
+#'
+#' Creates a function set containing the trigonometric operators (sin, cos, tan)
+#'
+#' @return the function set created
+#' @examples
+#' trigonometricSet()
+trigonometricSet <- function() {
+
+  functionDefs <- c(c("sin", 1),
+                    c("cos", 1),
+                    c("tan", 1))
+
+  return(constructFuncSet(functionDefs))
+}
+
+#' complexSet
+#'
+#' Creates a function set containing the log, exp and sqrt functions
+#'
+#' @return the function set created
+#' @examples
+#' complexSet()
+complexSet <- function() {
+
+  functionDefs <- c(c("log", 1),
+                    c("log", 2),
+                    c("exp", 1),
+                    c("sqrt", 1))
+
+  return(constructFuncSet(functionDefs))
+}
+
+#' mathOpSet
+#'
+#' Creates a function set containing the functions from the other sets defined
+#' in the package
+#'
+#' @return the function set created
+#' @examples
+#' mathOpSet()
+mathOpSet <- function() {
+
+  return(rbind(arithmeticSet(), trigonometricSet(), complexSet()))
+}
+
 #' constructFuncSet
 #'
 #' Constructs a function set using the provided function definitions.
