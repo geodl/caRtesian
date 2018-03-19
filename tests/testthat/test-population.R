@@ -7,19 +7,21 @@ test_that("generateInputs returns a data frame of the correct structure", {
 
   maxColumns <- 2
 
-  inputSize1 <- 5
+  inputSize1 <- 5 #5 input variables
+  constants <- 1 #1 constant
   inputs1 <- generateInputs(inputSize1)
   expect_equal(ncol(inputs1), maxColumns)
-  expect_equal(nrow(inputs1), inputSize1)
+  expect_equal(nrow(inputs1), inputSize1 + constants)
 
   expect_is(inputs1, "data.frame")
   expect_is(inputs1$chromoID, "integer")
   expect_is(inputs1$value, "numeric")
 
-  inputSize2 <- 10
+  inputSize2 <- 10 #10 input variables
+
   inputs2 <- generateInputs(inputSize2)
   expect_equal(ncol(inputs2), maxColumns)
-  expect_equal(nrow(inputs2), inputSize2)
+  expect_equal(nrow(inputs2), inputSize2 + constants)
 
   expect_is(inputs2, "data.frame")
 })

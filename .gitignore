@@ -34,3 +34,4 @@ vignettes/*.pdf
 
 # CRAN License
 ^LICENCE$
+.Rproj.user

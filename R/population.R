@@ -42,7 +42,6 @@ initPopulation <- function(popsize) {
 #' @return a data frame containing the input nodes
 generateInputs <- function(inputSize) {
 
-  inputSize <- 3
   inputSize <- inputSize + 1
 
   inputNodes <- data.frame(chromoID = 1:inputSize,
