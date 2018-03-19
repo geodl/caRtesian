@@ -219,8 +219,8 @@ makeFunctionNode <- function(chromoID, validInputs) {
 #' @return a matrix containing the updated valid input chromoIDs
 
 #' @examples
-#' updateValidInputIDs(2, c(3, 4, 5))
-#' updateValidInputIDs(4, c(7, 8))
+#' updateValidInputIDs(2, c(3, 4, 5), validInputs)
+#' updateValidInputIDs(4, c(7, 8), validInputs)
 updateValidInputs <- function(row, level, validInputs) {
 
   #Replace the no longer valid chromoIDs with the
