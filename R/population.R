@@ -47,7 +47,7 @@ generateInputs <- function(inputSize) {
   inputNodes <- data.frame(chromoID = 1:inputSize,
              value = rep(as.numeric(NA), inputSize))
 
-  inputNodes[inputSize, 2] <- runif(1, min=-10, max = 10)
+  inputNodes[inputSize, 2] <- runif(1, min = -10, max = 10)
 
 
   return(inputNodes)
@@ -80,9 +80,9 @@ generateFunctionNodes <- function(startID, nrows, ncols, levelsBack) {
 
   #Create a matrix containing the chromoIDs of the nodes that can be used as
   #input for each node
-  validInputIDs <- matrix(1:(startID-1),
+  validInputIDs <- matrix(1:(startID - 1),
                           nrow = levelsBack + 1,
-                          ncol = max(startID-1, nrows),
+                          ncol = max(startID - 1, nrows),
                           byrow = TRUE)
 
   rowValidInputIDs <- 2
@@ -251,7 +251,7 @@ sampleWithoutBiasOrNA <- function(x, size, replace = FALSE) {
 updateValidInputs <- function(row, level, validInputs) {
 
   #Add NAs to level so it can fit in the matrix
-  while(ncol(validInputs) > length(level)) {
+  while (ncol(validInputs) > length(level)) {
     level <- c(level, NA)
   }
 
