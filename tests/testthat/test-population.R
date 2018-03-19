@@ -137,9 +137,31 @@ test_that("updateValidInputs updates the correct row with the correct values", {
   rowToAdd <- c(15, 16, 17, 18)
 
   newValidInputs <- updateValidInputs(row = 2,
-                    level = rowToAdd,
-                    validInputs = previousValidInputs)
+                                      level = rowToAdd,
+                                      validInputs = previousValidInputs)
 
   expect_true(all(is.element(rowToAdd, newValidInputs)))
   expect_false(all(is.element(rowToRemove, newValidInputs)))
+})
+
+test_that("updateValidInputs handles where validInputs has more columns
+          than level has in length", {
+
+  columns <- 5
+  rowToAdd <- c(11, 12)
+
+  previousValidInputs <- matrix(c(1, 2, 3, 4, 5,
+                                6, 7, 8, 9, 10),
+                                nrow = 2,
+                                ncol = columns,
+                                byrow = TRUE)
+
+  newValidInputs <- updateValidInputs(row = 2,
+                                      level = rowToAdd,
+                                      validInputs = previousValidInputs)
+
+  startPoint <- length(rowToAdd) + 1
+
+  expect_true(all(is.na(newValidInputs[2, startPoint:columns])))
+  expect_false(all(is.na(newValidInputs[2, 1:columns])))
 })
