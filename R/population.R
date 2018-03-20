@@ -1,17 +1,34 @@
-initPopulation <- function(popsize) {
+#' initPopulation
+#'
+#' Creates the initial population of solutions which is made up of popsize
+#' lists. Each list contains three data frames, one for each type of node
+#' (input, function, output).
+#'
+#' @param popsize the number of solutions to be created
+#' @param inputSize the number of input nodes required. This should be the same as the number of input fields in the provided dataset
+#' @param outputSize the number of output nodes required. This should be the same as the number of output fields in the provided dataset
+#' @param rowsFuncNodes the number of rows to use in the function node structure
+#' @param colsFuncNodes the number of columns to use in the function node structure
+#' @param levelsBack the number of columns back that a function node can access
+#'
+#' @return a list containing the created population
+#' @export
+#' @examples
+initPopulation <- function(popsize, inputSize, outputSize,
+                           rowsFuncNodes, colsFuncNodes, levelsBack) {
 
   population <- vector(mode = "list", length = popsize)
 
-  nrows <- 2
-  ncols <- 3
-  levelsBack <- 2
+  #nrows <- 2
+  #ncols <- 3
+  #levelsBack <- 2
 
   inputNodes <- generateInputs(inputSize)
   for (i in 1:popsize) {
 
     functionNodes <- generateFunctionNodes(startID = nrow(inputNodes) + 1,
-                                           nrows = nrows,
-                                           ncols = ncols,
+                                           nrows = rowsFuncNodes,
+                                           ncols = colsFuncNodes,
                                            levelsBack = levelsBack)
 
     maxInputID <- tail(functionNodes, 1)$chromoID
@@ -49,6 +66,7 @@ generateInputs <- function(inputSize) {
 
   inputNodes[inputSize, 2] <- runif(1, min = -10, max = 10)
 
+  #can have multiple constants
 
   return(inputNodes)
 }

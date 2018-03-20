@@ -52,7 +52,7 @@ test_that("generateFunctionNodes returns a data frame of the
   expect_equal(nrow(functionNodes2), 10 * 8)
 })
 
-test_that("generateOutpus returns a data frame of the correct structure", {
+test_that("generateOutputs returns a data frame of the correct structure", {
 
   maxColumns <- 3
 
