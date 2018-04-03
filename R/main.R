@@ -20,11 +20,7 @@ cgp <- function(dataset, functionSet,
 
   dataset <- read.csv("./data/x_squared_minus_y.csv")
 
-  functionSet <<- functionSet()
-
-  popsize <- 5
-
-  population <- initPopulation(popsize, inputSize, outputSize,
+  population <- initPopulation(popSize, functionSet, inputSize, outputSize,
                                rowsFuncNodes, colsFuncNodes, levelsBack)
 
   #Return results to top level

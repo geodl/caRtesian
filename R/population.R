@@ -5,6 +5,7 @@
 #' (input, function, output).
 #'
 #' @param popsize the number of solutions to be created
+#' @param functionSet the functions that can be used in the function nodes
 #' @param inputSize the number of input nodes required. This should be the same as the number of input fields in the provided dataset
 #' @param outputSize the number of output nodes required. This should be the same as the number of output fields in the provided dataset
 #' @param rowsFuncNodes the number of rows to use in the function node structure
@@ -14,14 +15,10 @@
 #' @return a list containing the created population
 #' @export
 #' @examples
-initPopulation <- function(popsize, inputSize, outputSize,
+initPopulation <- function(popsize, functionSet, inputSize, outputSize,
                            rowsFuncNodes, colsFuncNodes, levelsBack) {
 
   population <- vector(mode = "list", length = popsize)
-
-  #nrows <- 2
-  #ncols <- 3
-  #levelsBack <- 2
 
   inputNodes <- generateInputs(inputSize)
   for (i in 1:popsize) {
@@ -29,7 +26,8 @@ initPopulation <- function(popsize, inputSize, outputSize,
     functionNodes <- generateFunctionNodes(startID = nrow(inputNodes) + 1,
                                            nrows = rowsFuncNodes,
                                            ncols = colsFuncNodes,
-                                           levelsBack = levelsBack)
+                                           levelsBack = levelsBack,
+                                           functionSet = functionSet)
 
     maxInputID <- tail(functionNodes, 1)$chromoID
     startOutputID <- maxInputID + 1
@@ -84,13 +82,15 @@ generateInputs <- function(inputSize) {
 #' @param nrows the number of rows required in the chromosome
 #' @param ncols the number of columns required in the chromosome
 #' @param levelsBack the number of columns back that each column can access
+#' @param functionSet the functions to choose from
 #'
 #' @return a data frame containing the function nodes
 #'
 #' @examples
 #' generateFunctionNodes(2, 4, 2)
 #' generateFunctionNodes(nrows = 3, ncols = 4, levelsBack = 3)
-generateFunctionNodes <- function(startID, nrows, ncols, levelsBack) {
+generateFunctionNodes <- function(startID, nrows, ncols, levelsBack,
+                                  functionSet) {
 
   functionNodes <- createFunctionNodesStructure(nrows * ncols)
 
@@ -115,7 +115,9 @@ generateFunctionNodes <- function(startID, nrows, ncols, levelsBack) {
 
       #Create a function node and store it in the appropriate position
       functionNodes[rowFunctionNodes, ] <-
-        makeFunctionNode(chromoID = j, validInputs = c(validInputIDs))
+        makeFunctionNode(chromoID = j,
+                         validInputs = c(validInputIDs),
+                         functionSet = functionSet)
 
       #Increment row counter
       rowFunctionNodes <- rowFunctionNodes + 1
@@ -196,13 +198,14 @@ createFunctionNodesStructure <- function(rowsRequired) {
 #'
 #' @param chromoID the unique ID of the node
 #' @param validInputs a vector containing the valid input chromoIDs
+#' @param functionSet the functions to choose from
 #'
 #' @return the node created
 #' @examples
 #' makeFunctionNode(chromoID = 3)
 #' makeFunctionNode(4)
 #'
-makeFunctionNode <- function(chromoID, validInputs) {
+makeFunctionNode <- function(chromoID, validInputs, functionSet) {
 
   #Store the maximum function ID
   maxFuncID <- nrow(functionSet)

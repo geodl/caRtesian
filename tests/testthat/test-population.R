@@ -1,8 +1,6 @@
 library(caRtesian)
 context("population")
 
-functionSet <<- arithmeticSet()
-
 test_that("generateInputs returns a data frame of the correct structure", {
 
   maxColumns <- 2
@@ -26,15 +24,15 @@ test_that("generateInputs returns a data frame of the correct structure", {
   expect_is(inputs2, "data.frame")
 })
 
-test_that("generateFunctionNodes returns a data frame of the
-          correct structure", {
+test_that("generateFunctionNodes returns a data frame of the correct structure", {
 
   maxColumns <- 4
 
   functionNodes1 <- generateFunctionNodes(startID = 5,
                                          nrows = 5,
                                          ncols = 5,
-                                         levelsBack = 2)
+                                         levelsBack = 2,
+                                         functionSet = arithmeticSet())
   expect_equal(ncol(functionNodes1), maxColumns)
   expect_equal(nrow(functionNodes1), 5 * 5)
 
@@ -47,7 +45,8 @@ test_that("generateFunctionNodes returns a data frame of the
   functionNodes2 <- generateFunctionNodes(startID = 2,
                                           nrows = 10,
                                           ncols = 8,
-                                          levelsBack = 4)
+                                          levelsBack = 4,
+                                          functionSet = mathOpSet())
   expect_equal(ncol(functionNodes2), maxColumns)
   expect_equal(nrow(functionNodes2), 10 * 8)
 })
@@ -104,7 +103,9 @@ test_that("makeFunctionNode returns a data frame with the correct structure", {
   maxColumns <- 4
   maxRows <- 1
 
-  node1 <- makeFunctionNode(chromoID = 7, validInputs = c(1, 2, 3, 4, 5))
+  node1 <- makeFunctionNode(chromoID = 7,
+                            validInputs = c(1, 2, 3, 4, 5),
+                            functionSet = arithmeticSet())
   expect_equal(ncol(node1), maxColumns)
   expect_equal(nrow(node1), maxRows)
 
@@ -118,7 +119,11 @@ test_that("makeFunctionNode returns a data frame with the correct structure", {
 
 test_that("makeFunctionNode assigns the correct number of valid inputs", {
 
-  node1 <- makeFunctionNode(chromoID = 10, validInputs = c(1, 2, 6, 7, 8))
+  functionSet <- arithmeticSet()
+
+  node1 <- makeFunctionNode(chromoID = 10,
+                            validInputs = c(1, 2, 6, 7, 8),
+                            functionSet = functionSet)
   chosenFunc <- node1[1, ]$funcID
   arity <- functionSet[chosenFunc, ]$arity
   numInputsChosen <- sapply(node1$inputs, length)
