@@ -4,7 +4,7 @@
 #' lists. Each list contains three data frames, one for each type of node
 #' (input, function, output).
 #'
-#' @param popsize the number of solutions to be created
+#' @param popsize the number of solutions to be generate
 #' @param functionSet the functions that can be used in the function nodes
 #' @param inputSize the number of input nodes required. This should be the same as the number of input fields in the provided dataset
 #' @param outputSize the number of output nodes required. This should be the same as the number of output fields in the provided dataset

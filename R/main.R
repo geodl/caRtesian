@@ -10,13 +10,15 @@
 #' @param rowsFuncNodes the number of rows to use in the function node structure
 #' @param colsFuncNodes the number of columns to use in the function node structure
 #' @param levelsBack the number of columns back that a function node can access
+#' @param popSize the number of solutions to generate in each generation
 #'
 #' @return a list containing the best solution found and the chosen functionSet
 #' @export
 cgp <- function(dataset, functionSet,
                 stopCondition = timeCondition(5 * 60),
                 inputSize, outputSize,
-                rowsFuncNodes, colsFuncNodes, levelsBack) {
+                rowsFuncNodes, colsFuncNodes, levelsBack,
+                popSize) {
 
   dataset <- read.csv("./data/x_squared_minus_y.csv")
 
