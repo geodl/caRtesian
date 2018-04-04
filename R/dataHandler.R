@@ -90,3 +90,35 @@ extractRequiredFields <- function(dataset, model) {
 
   return(out)
 }
+
+#' calculateOutputSize
+#'
+#' Calculates the output size from a given model. The output size is the
+#' number of terms on the left hand side of the model.
+#'
+#' @param model the formula to calculate the output size of
+#'
+#' @return the number of terms on the left hand side of the model
+
+#' @examples
+#' calculateOutputSize(output ~ x + y)
+#' calculateOutputSize(Class + Type ~ x + y + z)
+calculateOutputSize <- function(model) {
+  return(length(all.vars(model[[2]])))
+}
+
+#' calculateInputSize
+#'
+#' Calculates the input size from a given model. The input size is the
+#' number of terms on the right hand side of the model.
+#'
+#' @param model the formula to calculate the input size of
+#'
+#' @return the number of terms on the right hand side of the model
+
+#' @examples
+#' calculateInputSize(output ~ x + y)
+#' calculateInputtSize(Class + Type ~ x + y + z)
+calculateInputSize <- function(model) {
+  return(length(all.vars(model[[3]])))
+}
