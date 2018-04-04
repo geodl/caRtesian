@@ -29,6 +29,9 @@ cgp <- function(dataset, model, functionSet,
   population <- initPopulation(popSize, functionSet, inputSize, outputSize,
                                rowsFuncNodes, colsFuncNodes, levelsBack)
 
+  #Calculate the fitness values of the population
+  population <- calculatePopFitness(population, dataset = dataset)
+
   #Return results to top level
   return(population)
 }
