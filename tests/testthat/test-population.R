@@ -13,7 +13,7 @@ test_that("generateInputs returns a data frame of the correct structure", {
 
   expect_is(inputs1, "data.frame")
   expect_is(inputs1$chromoID, "integer")
-  expect_is(inputs1$value, "numeric")
+  expect_is(inputs1$value, "character")
 
   inputSize2 <- 10 #10 input variables
 
