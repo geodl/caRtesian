@@ -102,10 +102,11 @@ generateFunctionNodes <- function(startID, nrows, ncols, levelsBack,
 
   #Create a matrix containing the chromoIDs of the nodes that can be used as
   #input for each node
-  validInputIDs <- matrix(1:(startID - 1),
+  #Warning is suppressed as it is not a problem in this case
+  suppressWarnings(validInputIDs <- matrix(1:(startID - 1),
                           nrow = levelsBack + 1,
                           ncol = max(startID - 1, nrows),
-                          byrow = TRUE)
+                          byrow = TRUE))
 
   rowValidInputIDs <- 2
 
