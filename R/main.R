@@ -3,6 +3,7 @@
 #' Performs Cartesian Genetic Programming using the parameters provided.
 #'
 #' @param dataset the dataset to use for training
+#' @param model a model specifying the output and input fields of the dataset
 #' @param functionSet the functions that can be used in the function nodes
 #' @param stopCondition the stopping criteria of the evolutionary process
 #' @param inputSize the number of input nodes required. This should be the same as the number of input fields in the provided dataset
@@ -14,13 +15,14 @@
 #'
 #' @return a list containing the best solution found and the chosen functionSet
 #' @export
-cgp <- function(dataset, functionSet,
+cgp <- function(dataset, model, functionSet,
                 stopCondition = timeCondition(5 * 60),
                 inputSize, outputSize,
                 rowsFuncNodes, colsFuncNodes, levelsBack,
                 popSize) {
 
-  dataset <- read.csv("./data/x_squared_minus_y.csv")
+  #Extract only the required fields from the dataset
+  dataset <- extractRequiredFields(dataset, model)
 
   population <- initPopulation(popSize, functionSet, inputSize, outputSize,
                                rowsFuncNodes, colsFuncNodes, levelsBack)

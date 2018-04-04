@@ -54,3 +54,39 @@ checkOutputBounds <- function(numCol, outputColumns) {
   #Check each integer correctly specifies a column
   return(all(outputColumns <= numCol & outputColumns >= 1))
 }
+
+#' extractRequiredFields
+#'
+#' Extract the fields from dataset that are contained in model. It is a wrapper
+#' for model.frame which provides a more informative handling of errors by
+#' stating which variables were missing if any.
+#'
+#' @param dataset the dataset to extract from
+#' @param model a formula containing the variables to extract
+#'
+#' @return a dataset containing only the extracted fields
+extractRequiredFields <- function(dataset, model) {
+
+  out <- tryCatch({
+    dataset <- model.frame(model, dataset)
+
+  }, error = function(cond) {
+
+    datasetColumns <- colnames(dataset)
+    modelVariables <- all.vars(model)
+
+    missingVariables <- c()
+
+    #Find the variables missing from datasetColumns
+    for(i in modelVariables) {
+      if(!is.element(i, datasetColumns)) {
+        missingVariables <- c(missingVariables, i)
+      }
+    }
+    stop("Error: model specified variables which could not be found in the ",
+         "dataset. The missing variables were: ", missingVariables)
+
+  })
+
+  return(out)
+}
