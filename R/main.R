@@ -5,7 +5,7 @@
 #' @param dataset the dataset to use for training
 #' @param model a model specifying the output and input fields of the dataset
 #' @param functionSet the functions that can be used in the function nodes
-#' @param stopCondition the stopping criteria of the evolutionary process
+#' @param maxGenerations the maximum generations of the evolutionary process
 #' @param fitnessFunction the fitness function to use
 #' @param rowsFuncNodes the number of rows to use in the function node structure
 #' @param colsFuncNodes the number of columns to use in the function node structure
@@ -15,7 +15,6 @@
 #' @return a list containing the best solution found and the chosen functionSet
 #' @export
 cgp <- function(dataset, model, functionSet,
-                stopCondition = timeCondition(5 * 60),
                 maxGenerations, fitnessFunction,
                 rowsFuncNodes, colsFuncNodes, levelsBack,
                 popSize) {
@@ -32,7 +31,7 @@ cgp <- function(dataset, model, functionSet,
                                rowsFuncNodes, colsFuncNodes, levelsBack)
 
   #Calculate the fitness values of the population
-  population <- calculatePopFitness(population, dataset = dataset)
+  population <- calculatePopFitness(population, dataset, fitnessFunction)
 
   #Return results to top level
   return(population)
