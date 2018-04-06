@@ -85,3 +85,61 @@ checkSolutionFound <- function(population) {
   #Check if 0 is within the fitness values
   return(is.element(0, sapply(population, "[[", "fitness")))
 }
+
+
+#' nodesToProcess
+#'
+#' Find the functionNodes which are required by the outputNodes.
+#'
+#' @param solution The solution containing the nodes
+#'
+#' @return the functionNodes required
+#'
+nodesToProcess <- function(solution) {
+
+  functionNodes <- solution$functionNodes
+
+  outputID <- solution$outputNodes[1, ]$inputs
+
+  nodesUsed <- vector(mode = "logical", length = nrow(functionNodes))
+
+  nodesUsed <- traverseFunctionNodes(functionNodes, nodesUsed, outputID)
+
+  return(functionNodes[nodesUsed, ])
+}
+
+#' traverseFunctionNodes
+#'
+#' Traverses through the functionNode structure starting at chromoID
+#' and then recursively running on each of the nodes inputs.
+#'
+#' @param functionNodes the functionNode structure
+#' @param nodesUsed a boolean vector signifying if a node was used
+#' @param chromoID the chromoID of the starting node
+#'
+#' @return a boolean vector signifying the nodes used
+#'
+traverseFunctionNodes <- function(functionNodes, nodesUsed, chromoID) {
+
+  #If the chromoID is now an inputNode
+  if(chromoID < functionNodes[1, ]$chromoID) {
+
+    return(nodesUsed)
+  } else {
+
+    #Find the index of the node with this chromoID
+    index <- which(functionNodes$chromoID == chromoID)
+
+    #Set the corresponding row in nodesUsed to TRUE
+    nodesUsed[index] <- TRUE
+
+    #Recursively loop over the inputs of each node used
+    inputs <- unlist(functionNodes[index, ]$inputs)
+    for(input in inputs) {
+      nodesUsed <- traverseFunctionNodes(functionNodes, nodesUsed, input)
+    }
+
+    return(nodesUsed)
+  }
+}
+
