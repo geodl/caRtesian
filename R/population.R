@@ -65,10 +65,9 @@ generateInputs <- function(inputSize) {
   #inputNodes[inputSize, 2] <- runif(1, min = -10, max = 10)
 
   inputNodes <- data.frame(chromoID = 1:inputSize,
-                           value = rep("NA", inputSize),
-                           stringsAsFactors = FALSE)
+                           value = as.numeric(rep(NA, inputSize)))
 
-  inputNodes[inputSize, 2] <- "sample"
+  inputNodes[inputSize, 2] <- sample(-10:10, 1)
 
   return(inputNodes)
 }
