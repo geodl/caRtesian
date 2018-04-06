@@ -5,12 +5,12 @@
 #' @param population the list of elements to be evaluated
 #' @param dataset the dataset used to evaluate the element against
 #' @param fitnessFunction the fitness function to use
+#' @param functionSet the functionSet used with the population
 #'
-#' @return
-#' @export
+#' @return the population with fitness values nested inside
 #'
-#' @examples
-calculatePopFitness <- function(population, dataset, fitnessFunction) {
+calculatePopFitness <- function(population, dataset,
+                                fitnessFunction, functionSet) {
 
   for(i in population) {
 

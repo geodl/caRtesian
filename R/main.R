@@ -49,7 +49,8 @@ cgp <- function(dataset, model, functionSet,
   while(currGeneration < maxGeneration && !solutionFound) {
     population <- selection(population, args[1])
 
-    population <- calculatePopFitness(population, dataset, fitnessFunction)
+    population <- calculatePopFitness(population, dataset,
+                                      fitnessFunction, functionSet)
 
     solutionFound <- checkSolutionFound(population)
     currGeneration <- currGeneration + 1
