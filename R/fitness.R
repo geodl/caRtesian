@@ -39,14 +39,14 @@ calculateFitness <- function(solution, dataset, fitnessFunction) {
 #' @export
 rmse <- function(data) {
 
-  residuals <- vector(mode = "numeric", length = nrow(data))
-  for(i in data) {
+  results <- vector(mode = "numeric", length = nrow(data))
+  for(i in 1:nrow(data)) {
     #Substract actual value from predicted value and square result
-    residuals[i] <- (data$predicted - data$actual)^2
+    results[i] <- (data[i, ]$predicted - data[i, ]$actual)^2
   }
 
-  #Square root the mean of the residuals
-  return (sqrt(mean(residuals)))
+  #Square root the mean of the results
+  return (sqrt(mean(results)))
 }
 
 #' mae
@@ -62,9 +62,10 @@ rmse <- function(data) {
 mae <- function(data) {
 
   results <- vector(mode = "numeric", length = nrow(data))
-  for(i in data) {
+  for(i in 1:nrow(data)) {
+
     #Subtract the predicted value from actual value and take the absolute value
-    residual[i] <- abs(data$actual - data$predicted)
+    results[i] <- abs(data[i, ]$actual - data[i, ]$predicted)
   }
 
   #Mean of the results
