@@ -56,7 +56,9 @@ cgp <- function(dataset, model, functionSet,
     currGeneration <- currGeneration + 1
   }
 
+  #Store the best solution found
+  bestSolution <- sortPopulation(population)[[1]]
 
   #Return results to top level
-  return(population)
+  return(bestSolution)
 }
