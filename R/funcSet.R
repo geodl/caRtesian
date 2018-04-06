@@ -7,10 +7,10 @@
 #' arithmeticSet()
 arithmeticSet <- function() {
 
-  functionDefs <- c(c("add", 2),
-                    c("subtract", 2),
-                    c("multiply", 2),
-                    c("divide", 2))
+  functionDefs <- c(c("+", 2),
+                    c("-", 2),
+                    c("*", 2),
+                    c("/", 2))
 
   #within this function
   #do.call(functionSet[3,1], list(2, 3))
@@ -18,22 +18,6 @@ arithmeticSet <- function() {
   #do.call(arithmeticSet()[3,1], list(2, 3))
 
   return(constructFuncSet(functionDefs))
-}
-
-add <- function(x, y) {
-  return(x + y)
-}
-
-subtract <- function(x, y) {
-  return(x - y)
-}
-
-multiply <- function(x, y) {
-  return(x * y)
-}
-
-divide <- function(x, y) {
-  return (x / y)
 }
 
 #' trigonometricSet
