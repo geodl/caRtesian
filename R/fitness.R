@@ -143,6 +143,65 @@ traverseFunctionNodes <- function(functionNodes, nodesUsed, chromoID) {
   }
 }
 
+#' calculateValue
+#'
+#' Calculates the output value after propagating the values of the inputNodes
+#' through each of the functionNodes.
+#'
+#' @param node the current functionNode
+#' @param solution the solution containing the nodes
+#' @param functionSet the functionSet used when creating the population
+#'
+#' @return the value for the currentNode
+#'
+calculateValue <- function(node, solution, functionSet) {
+
+  funcToCall <- functionSet[node$funcID, ]$funcName
+
+  inputs <- unlist(node$input[[1]])
+
+  firstArgument <- findRow(solution, inputs[1])$value
+  secondArgument <- findRow(solution, inputs[2])$value
+
+  value <- do.call(funcToCall, list(firstArgument, secondArgument))
+
+  return(value)
+}
+
+#' calculateValueInSolution
+#'
+#' Calculates the value that should be stored in each entry of functionNodesUsed
+#' and stores it in the corresponding location of solution
+#'
+#' @param solution the solution containing the nodes
+#' @param functionNodesUsed the function nodes required to get an output value
+#' @param functionSet the functionSet used when creating the population
+#'
+#' @return the solution after writing the calculated values in
+#'
+calculateValueInSolution <- function(solution, functionNodesUsed, functionSet) {
+
+  for(i in 1:nrow(functionNodesUsed)) {
+
+    #Store the current node
+    currentNode <- functionNodesUsed[i, ]
+    #currentNode <- functionNodesUsed[1, ]
+
+    #Calculate the value for this node
+    value <- calculateValue(currentNode, solution, functionSet)
+
+    #Find the index of the currentNode in the solution
+    index <- which(solution$functionNodes$chromoID == currentNode$chromoID)
+
+    #Write the value into the solution
+    solution$functionNodes[index, ]$value <- value
+  }
+
+  #Write the last value into outputNodes
+  solution$outputNodes[1,]$value <- solution$functionNodes[index, ]$value
+
+  return(solution)
+}
 #' calculateValue2
 #'
 #' Calculates the output value after propagating the values of the inputNodes
