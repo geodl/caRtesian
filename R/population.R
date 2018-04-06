@@ -287,3 +287,20 @@ updateValidInputs <- function(row, level, validInputs) {
 
   return(validInputs)
 }
+
+#' sortPopulation
+#'
+#' Sorts the population from lowest fitness value to highest
+#'
+#' @param population the population to be sorted
+#'
+#' @return the population after sorting
+sortPopulation <- function(population) {
+
+  #Extract the fitness values from the population
+  fitnessValues <- sapply(population, "[[", "fitness")
+
+  #Get the index ordering that will put the values
+  #into ascending order and reorder the population
+  return(population[order(fitnessValues, decreasing = FALSE)])
+}
