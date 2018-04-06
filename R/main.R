@@ -46,7 +46,7 @@ cgp <- function(dataset, model, functionSet,
   solutionFound <- FALSE
 
   #Run evolution
-  while(currGeneration < maxGeneration && !isTRUE(solutionFound)) {
+  while(currGeneration < maxGeneration && !solutionFound) {
     population <- selection(population, args[1])
 
     population <- calculatePopFitness(population, dataset, fitnessFunction)
