@@ -143,6 +143,30 @@ traverseFunctionNodes <- function(functionNodes, nodesUsed, chromoID) {
   }
 }
 
+#' decode
+#'
+#' Decodes the solution and returns the output value of it.
+#'
+#' @param solution the solution containing the nodes
+#' @param functionNodesUsed the function nodes required to get an output value
+#' @param functionSet the functionSet used when creating the population
+#'
+#' @return the output value
+#'
+decode <- function(solution, functionNodesUsed, functionSet) {
+
+  #Get the chromoID of the last functionNode used
+  endFunctionNode <- solution$outputNodes[1,]$inputs
+
+  #Find the row which contains the chromoID found
+  row <- findRow(solution, endFunctionNode)
+
+  #Calculate the values of all the required nodes
+  #solution <- calculateValueInSolution(solution, functionNodesUsed, functionSet)
+
+  return(solution)
+}
+
 #' calculateValue
 #'
 #' Calculates the output value after propagating the values of the inputNodes
