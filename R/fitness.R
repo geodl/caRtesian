@@ -143,3 +143,40 @@ traverseFunctionNodes <- function(functionNodes, nodesUsed, chromoID) {
   }
 }
 
+#' calculateValue2
+#'
+#' Calculates the output value after propagating the values of the inputNodes
+#' through each of the functionNodes. This function is similar to calculateValue
+#' except that it is recursive.
+#'
+#' @param node the current node
+#' @param solution the solution containing all nodes
+#' @param functionSet the functionSet used when creating the population
+#'
+#' @return the value calculated
+#'
+calculateValue2 <- function(node, solution, functionSet) {
+
+  if(is.null(node$inputs)) {
+    return(node$value)
+  } else {
+
+    inputs <- unlist(node$inputs)
+
+    #Get the name of the function to call from the functionSet
+    funcToCall <- functionSet[node$funcID, ]$funcName
+
+    firstInput <- findRow(solution, inputs[1])
+    result1 <- calculateValue2(firstInput, solution, functionSet)
+
+    if(length(inputs) == 2) {
+      secondInput <- findRow(solution, inputs[2])
+      result2 <- calculateValue2(secondInput, solution, functionSet)
+      nodeValue <- do.call(funcToCall, list(result1, result2))
+    } else {
+      nodeValue <- do.call(funcToCall, list(result1))
+    }
+
+    return(nodeValue)
+  }
+}
