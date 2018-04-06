@@ -70,3 +70,17 @@ mae <- function(data) {
   #Mean of the results
   return(mean(results))
 }
+
+#' checkSolutionFound
+#'
+#' Checks if a solution has been found. A solution has been found if there is
+#' a individual in the population with a fitness value of zero.
+#'
+#' @param population the population which contains fitness values
+#'
+#' @return a boolean stating whether a solution has been found or not
+checkSolutionFound <- function(population) {
+
+  #Check if 0 is within the fitness values
+  return(is.element(0, sapply(population, "[[", "fitness")))
+}
