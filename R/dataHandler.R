@@ -122,3 +122,40 @@ calculateOutputSize <- function(model) {
 calculateInputSize <- function(model) {
   return(length(all.vars(model[[3]])))
 }
+
+#' validSelectionInput
+#'
+#' Checks that the number of arguments provided matches the what the provided
+#' function expects.
+#'
+#' @param arguments A list containing the function and arguments
+#'
+#' @return a boolean stating if the arguments are valid
+#' @examples
+#' validSelectionInput(list(func = foo, c("population" = NA, ...)))
+validSelectionInput <- function(arguments) {
+
+  expectedArgsLength <- length(formals(arguments$func))
+  providedArgsLength <- length(arguments$args)
+
+  if(expectedArgsLength != providedArgsLength) {
+    cat("Error: The function provided expects ", expectedArgsLength,
+        " arguments but ", providedArgsLength, " were provided.")
+    return(FALSE)
+  }
+
+  if(!("population" %in% names(arguments$args))) {
+    cat("Error: 'population' was not found in arguments$args. The structure",
+        "should follow list (func = foo, c('population' = NA, ...))\n")
+    return(FALSE)
+  }
+
+  if(!is.na(arguments$args["population"])) {
+    cat("Error: 'population' parameter is not NA.\n")
+    return(FALSE)
+  }
+
+  cat("Success: The provided arguments match the number of arguments the",
+      "provided function expects.")
+  return(TRUE)
+}
