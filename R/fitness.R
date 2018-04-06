@@ -239,3 +239,42 @@ calculateValue2 <- function(node, solution, functionSet) {
     return(nodeValue)
   }
 }
+
+#' findRow
+#'
+#' Finds the row in the solution that contains chromoID
+#'
+#' @param solution the solution containing a row with chromoID
+#' @param chromoID the row to find
+#'
+#' @return the row found
+#'
+findRow <- function(solution, chromoID) {
+
+  #Get the chromoIDs of the functionNodes
+  chromoIDs <- solution$functionNodes$chromoID
+
+  #If the chromoID is the ID of an inputNode
+  if(chromoID < min(chromoIDs)) {
+
+    #Find the rowIndex of the node with this chromoID
+    rowIndex <- which(solution$inputNodes$chromoID == chromoID)
+
+    return(solution$inputNodes[rowIndex, ])
+
+  #If the chromoID is the ID of an outputNode
+  } else if(chromoID > max(chromoIDs)) {
+
+    #Find the rowIndex of the node with this chromoID
+    rowIndex <- which(solution$outputNodes$chromoID == chromoID)
+
+    return(solution$outputNodes[rowIndex, ])
+
+  } else { #The chromoID is the ID of a functionNode
+
+    #Find the rowIndex of the node with this chromoID
+    rowIndex <- which(solution$functionNodes$chromoID == chromoID)
+
+    return(solution$functionNodes[rowIndex, ])
+  }
+}
