@@ -12,9 +12,11 @@
 calculatePopFitness <- function(population, dataset,
                                 fitnessFunction, functionSet) {
 
-  for(i in population) {
+  for(i in 1:length(population)) {
 
-    fitness = calculateFitness(i, dataset)
+    cat("This is population", i, "Trying to calculate fitness\n")
+    fitness = calculateFitness(population[[i]], dataset, fitnessFunction,
+                               functionSet)
 
     population[[i]] <- c(population[[i]], fitness = fitness)
   }
@@ -22,10 +24,37 @@ calculatePopFitness <- function(population, dataset,
   return(population)
 }
 
-calculateFitness <- function(solution, dataset, fitnessFunction) {
+calculateFitness <- function(solution, dataset, fitnessFunction, functionSet) {
+
+  #Get only the required nodes
+  functionNodesUsed <- nodesToProcess(solution)
+
+  #Get the numbers of rows up to the random constant row
+  inputs <- 1:(nrow(solution$inputNodes) - 1)
+
+  #Create vector to hold results
+  results <- vector(mode = "numeric", length = nrow(dataset))
+
+  for(i in 1:nrow(dataset)) {
+
+    #Load the inputNodes with input data from the dataset
+    for(input in inputs) {
+      solution$inputNodes[input, ]$value <- dataset[i, ][[input+1]]
+    }
+
+    #Decode the solution
+    solution <- decode(solution, functionNodesUsed, functionSet)
+
+    #Write the result of decoding into the results vector
+    results[i] <- solution$outputNodes[1,]$value
+  }
 
 
-  fitness <- as.numeric(0)
+  #Combine the dataset outputs and results into a single list
+  outputs <- data.frame(actual = dataset$output, predicted = results)
+
+  return(fitnessFunction(outputs))
+}
 
 #' rmse
 #'
@@ -38,6 +67,8 @@ calculateFitness <- function(solution, dataset, fitnessFunction) {
 #' @return the rmse value
 #' @export
 rmse <- function(data) {
+
+  data <- outputs
 
   results <- vector(mode = "numeric", length = nrow(data))
   for(i in 1:nrow(data)) {
@@ -162,7 +193,7 @@ decode <- function(solution, functionNodesUsed, functionSet) {
   row <- findRow(solution, endFunctionNode)
 
   #Calculate the values of all the required nodes
-  #solution <- calculateValueInSolution(solution, functionNodesUsed, functionSet)
+  solution <- calculateValueInSolution(solution, functionNodesUsed, functionSet)
 
   return(solution)
 }
@@ -180,14 +211,22 @@ decode <- function(solution, functionNodesUsed, functionSet) {
 #'
 calculateValue <- function(node, solution, functionSet) {
 
+  #Get the name of the functiob to call from the functionSet
   funcToCall <- functionSet[node$funcID, ]$funcName
 
   inputs <- unlist(node$input[[1]])
 
+  #Get the value of the first argument of the funcToCall
   firstArgument <- findRow(solution, inputs[1])$value
-  secondArgument <- findRow(solution, inputs[2])$value
 
-  value <- do.call(funcToCall, list(firstArgument, secondArgument))
+  #If the function takes two parameters
+  if(length(inputs) == 2) {
+    #Get the value of the second argument of the funcToCall
+    secondArgument <- findRow(solution, inputs[2])$value
+    value <- do.call(funcToCall, list(firstArgument, secondArgument))
+  } else { #The function takes one parameter
+    value <- do.call(funcToCall, list(firstArgument))
+  }
 
   return(value)
 }
@@ -205,24 +244,35 @@ calculateValue <- function(node, solution, functionSet) {
 #'
 calculateValueInSolution <- function(solution, functionNodesUsed, functionSet) {
 
-  for(i in 1:nrow(functionNodesUsed)) {
+  #If the solution uses functionNodes
+  if(nrow(functionNodesUsed) != 0) {
+    for(i in 1:nrow(functionNodesUsed)) {
 
-    #Store the current node
-    currentNode <- functionNodesUsed[i, ]
-    #currentNode <- functionNodesUsed[1, ]
+      #Store the current node
+      currentNode <- functionNodesUsed[i, ]
 
-    #Calculate the value for this node
-    value <- calculateValue(currentNode, solution, functionSet)
+      #Calculate the value for this node
+      value <- calculateValue(currentNode, solution, functionSet)
 
-    #Find the index of the currentNode in the solution
-    index <- which(solution$functionNodes$chromoID == currentNode$chromoID)
+      #Find the index of the currentNode in the solution
+      index <- which(solution$functionNodes$chromoID == currentNode$chromoID)
 
-    #Write the value into the solution
-    solution$functionNodes[index, ]$value <- value
+      #Write the value into the solution
+      solution$functionNodes[index, ]$value <- value
+    }
+
+    #Write the last value into outputNodes
+    solution$outputNodes[1, ]$value <- solution$functionNodes[index, ]$value
+
+  } else {
+    #The solution takes its output directly from an inputNode
+
+    #Get the chromoID of the inputNode used
+    chromoID <- solution$outputNodes[1, ]$inputs
+
+    #Write the value of the inputNode into the solution
+    solution$outputNodes[1, ]$value <- findRow(solution, chromoID)$value
   }
-
-  #Write the last value into outputNodes
-  solution$outputNodes[1,]$value <- solution$functionNodes[index, ]$value
 
   return(solution)
 }
@@ -240,6 +290,7 @@ calculateValueInSolution <- function(solution, functionNodesUsed, functionSet) {
 #'
 calculateValue2 <- function(node, solution, functionSet) {
 
+  #If this is null then the node is an input node and the value can be extracted
   if(is.null(node$inputs)) {
     return(node$value)
   } else {
@@ -249,15 +300,19 @@ calculateValue2 <- function(node, solution, functionSet) {
     #Get the name of the function to call from the functionSet
     funcToCall <- functionSet[node$funcID, ]$funcName
 
+    #Get the node which is the first argument of the funcToCall
     firstInput <- findRow(solution, inputs[1])
-    result1 <- calculateValue2(firstInput, solution, functionSet)
+    #Calculate the value of this node
+    firstArgument <- calculateValue2(firstInput, solution, functionSet)
 
     if(length(inputs) == 2) {
+      #Get the node which is the second argument of the funcToCall
       secondInput <- findRow(solution, inputs[2])
-      result2 <- calculateValue2(secondInput, solution, functionSet)
-      nodeValue <- do.call(funcToCall, list(result1, result2))
+      #Calculate the value of this node
+      secondArgument <- calculateValue2(secondInput, solution, functionSet)
+      nodeValue <- do.call(funcToCall, list(firstArgument, secondArgument))
     } else {
-      nodeValue <- do.call(funcToCall, list(result1))
+      nodeValue <- do.call(funcToCall, list(firstArgument))
     }
 
     return(nodeValue)

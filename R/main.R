@@ -15,12 +15,27 @@
 #'
 #' @return a list containing the best solution found and the chosen functionSet
 #' @export
-cgp <- function(dataset, model, functionSet,
-                maxGenerations, fitnessFunction,
+cgp <- function(dataset, model, functionSet = mathOpSet(),
+                maxGenerations, fitnessFunction = mae,
                 selectionMethod = list(func = muLambda,
-                                       args = c(population = NA, 4)),
+                                       args = c(population = NA, 4, NA)),
                 rowsFuncNodes, colsFuncNodes, levelsBack,
                 popSize) {
+
+
+  #######
+  dataset <- read.csv("./data/x_squared_minus_y.csv")
+  model <- output ~ x + y
+  maxGeneration <- 10
+  rowsFuncNodes <- 3
+  colsFuncNodes <- 3
+  levelsBack <- 2
+  popSize <- 5
+  functionSet <- mathOpSet()
+  fitnessFunction <- mae
+  selectionMethod = list(func = muLambdaStrategy,
+                         args = c(population = NA, 4, NA))
+  #######
 
   #Extract only the required fields from the dataset
   dataset <- extractRequiredFields(dataset, model)
@@ -34,9 +49,8 @@ cgp <- function(dataset, model, functionSet,
                                rowsFuncNodes, colsFuncNodes, levelsBack)
 
   #Calculate the fitness values of the population
-  population <- calculatePopFitness(population, dataset, fitnessFunction)
-
-
+  population <- calculatePopFitness(population, dataset, fitnessFunction,
+                                    functionSet)
 
   #Setup variables required for evolutionary process
   selection <- selectionMethod$func
@@ -45,9 +59,15 @@ cgp <- function(dataset, model, functionSet,
   currGeneration <- 0
   solutionFound <- FALSE
 
+  #Wrap the parameters used to create the functionNodes into a list
+  functionNodeStructure <- list(rows = rowsFuncNodes,
+                                cols = colsFuncNodes,
+                                levelsBack = levelsBack,
+                                functionSet = functionSet)
+
   #Run evolution
   while(currGeneration < maxGeneration && !solutionFound) {
-    population <- selection(population, args[1])
+    population2 <- selection(population, args[2], functionNodeStructure)
 
     population <- calculatePopFitness(population, dataset,
                                       fitnessFunction, functionSet)

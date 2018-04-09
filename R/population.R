@@ -301,5 +301,5 @@ sortPopulation <- function(population) {
 
   #Get the index ordering that will put the values
   #into ascending order and reorder the population
-  return(population[order(fitnessValues, decreasing = FALSE)])
+  return(population[order(fitnessValues, decreasing = FALSE, na.last = TRUE)])
 }
