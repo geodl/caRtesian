@@ -4,14 +4,18 @@
 \alias{generateFunctionNodes}
 \title{generateFunctionNodes}
 \usage{
-generateFunctionNodes(nrows, ncols, levelsBack)
+generateFunctionNodes(startID, nrows, ncols, levelsBack, functionSet)
 }
 \arguments{
+\item{startID}{the starting chromoID}
+
 \item{nrows}{the number of rows required in the chromosome}
 
 \item{ncols}{the number of columns required in the chromosome}
 
 \item{levelsBack}{the number of columns back that each column can access}
+
+\item{functionSet}{the functions to choose from}
 }
 \value{
 a data frame containing the function nodes

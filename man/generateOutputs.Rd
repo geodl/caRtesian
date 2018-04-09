@@ -4,10 +4,14 @@
 \alias{generateOutputs}
 \title{generateOutputs}
 \usage{
-generateOutputs(startID)
+generateOutputs(startID, maxInputID, outputSize)
 }
 \arguments{
 \item{startID}{the starting chromoID}
+
+\item{maxInputID}{the maximum chromoID that can be accessed}
+
+\item{outputSize}{the number of output nodes required}
 }
 \value{
 a data frame containing the output nodes
