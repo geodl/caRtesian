@@ -7,15 +7,14 @@
 #' arithmeticSet()
 arithmeticSet <- function() {
 
+  #functionDefs <- c(c("+", 2),
+  #                  c("-", 2),
+  #                  c("*", 2),
+  #                  c("/", 2))
+
   functionDefs <- c(c("+", 2),
                     c("-", 2),
-                    c("*", 2),
-                    c("/", 2))
-
-  #within this function
-  #do.call(functionSet[3,1], list(2, 3))
-  #outside this function
-  #do.call(arithmeticSet()[3,1], list(2, 3))
+                    c("*", 2))
 
   return(constructFuncSet(functionDefs))
 }
@@ -45,10 +44,19 @@ trigonometricSet <- function() {
 #' complexSet()
 complexSet <- function() {
 
-  functionDefs <- c(c("log", 1),
-                    c("log", 2),
-                    c("exp", 1),
-                    c("sqrt", 1))
+  #functionDefs <- c(c("log", 1),
+  #                  c("log", 2),
+  #                  c("exp", 1),
+  #                  c("sqrt", 1),
+  #                  c("abs", 1),
+  #                  c("floor", 1),
+  #                  c("ceiling", 1))
+
+  functionDefs <- c(c("exp", 1),
+                    c("sqrt", 1),
+                    c("abs", 1),
+                    c("floor", 1),
+                    c("ceiling", 1))
 
   return(constructFuncSet(functionDefs))
 }
