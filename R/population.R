@@ -14,7 +14,6 @@
 #'
 #' @return a list containing the created population
 #' @export
-#' @examples
 initPopulation <- function(popsize, functionSet, inputSize, outputSize,
                            rowsFuncNodes, colsFuncNodes, levelsBack) {
 
@@ -232,33 +231,6 @@ makeFunctionNode <- function(chromoID, validInputs, functionSet) {
   return(node)
 }
 
-#' sampleWithoutBiasOrNA
-#'
-#' Perform the sample function after removing any duplicate or NA values from
-#' the vector
-#'
-#' @param x the vector to choose from
-#' @param size the number of items to choose
-#' @param replace should sampling be with replacement?
-#'
-#' @return the result of the sample function on x
-#' @examples
-#' sampleWithoutBiasOrNA(c(1, 2, 3, 1), 2)
-#' sampleWithoutBiasOrNA(c(3, 4, NA), 4, replace = TRUE)
-sampleWithoutBiasOrNA <- function(x, size, replace = FALSE) {
-
-  #Convert matrix to vector
-  x <- c(x)
-
-  #Remove any NA values
-  x <- x[!is.na(x)]
-
-  #Remove duplicates to avoid bias
-  x <- unique(x)
-
-  return(sample(x, size = size, replace = replace))
-}
-
 #' updateValidInputs
 #'
 #' Replaces the no longer valid chromoIDs with the new level of
@@ -285,21 +257,4 @@ updateValidInputs <- function(row, level, validInputs) {
   validInputs[row, ] <- level
 
   return(validInputs)
-}
-
-#' sortPopulation
-#'
-#' Sorts the population from lowest fitness value to highest
-#'
-#' @param population the population to be sorted
-#'
-#' @return the population after sorting
-sortPopulation <- function(population) {
-
-  #Extract the fitness values from the population
-  fitnessValues <- sapply(population, "[[", "fitness")
-
-  #Get the index ordering that will put the values
-  #into ascending order and reorder the population
-  return(population[order(fitnessValues, decreasing = FALSE, na.last = TRUE)])
 }
