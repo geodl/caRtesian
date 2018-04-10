@@ -25,22 +25,7 @@ muLambdaStrategy <- function(population, lambda, functionNodeStructure) {
 
   }
 
-  #Extract the fittest offspring
-  bestOffspring <- offspring[[which.min(sapply(offspring, "[[", "fitness"))]]
-
-  #If any offspring has an equal or better fitness than the parent
-  #then set it as the new fittest
-  if(bestOffspring$fitness <= parent$fitness) {
-
-    #Move the fittest individual to the start of the list
-    offspring <- sortPopulation(offspring)
-    #Add the parent to the end of the list
-    return(c(offspring, list(parent)))
-
-  } else {
-    #Parent is still fittest so add the offspring to the end of the list
-    return(c(list(parent), offspring))
-  }
+  return(c(list(parent), offspring))
 }
 
 #' pointMutation
