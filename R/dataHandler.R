@@ -132,7 +132,7 @@ calculateInputSize <- function(model) {
 #'
 #' @return a boolean stating if the arguments are valid
 #' @examples
-#' validSelectionInput(list(func = foo, c("population" = NA, ...)))
+#' validSelectionInput(list(func = foo, args = c(population = NA, ...)))
 validSelectionInput <- function(arguments) {
 
   expectedArgsLength <- length(formals(arguments$func))
