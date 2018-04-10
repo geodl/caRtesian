@@ -71,11 +71,11 @@ pointMutation <- function(solution, functionNodeStructure) {
       if(is.functionNode(solution, i)) {
         #Get the index of the node to be mutated
         nodeChanged <- which(solution$functionNodes$chromoID == i)
-        solution$functionNodes$input[[nodeChanged]] <- mutation
+        solution$functionNodes$inputs[[nodeChanged]] <- mutation
       } else {
         #Get the index of the node to be mutated
         nodeChanged <- which(solution$outputNodes$chromoID == i)
-        solution$outputNodes$input[[nodeChanged]] <- mutation
+        solution$outputNodes$inputs[[nodeChanged]] <- mutation
       }
     }
   }
