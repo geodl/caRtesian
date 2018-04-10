@@ -80,6 +80,9 @@ pointMutation <- function(solution, functionNodeStructure) {
     }
   }
 
+  #Reset the fitness value
+  solution$fitness <- Inf
+
   return(solution)
 }
 
