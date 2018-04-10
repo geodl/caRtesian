@@ -139,3 +139,24 @@ sortPopulation <- function(population) {
   #into ascending order and reorder the population
   return(population[order(fitnessValues, decreasing = FALSE, na.last = TRUE)])
 }
+
+#' printEvolutionDetails
+#'
+#' Print information about the progress of evolution
+#'
+#' @param currGeneration the current generation of evolution
+#' @param maxGeneration the maximum generations for evolution
+#' @param bestSolution the best solution found so far
+#' @param population the population of all solutions
+#'
+#' @return
+printEvolutionDetails <- function(currGeneration, maxGeneration,
+                                  bestSolution, population) {
+
+  avgFitness <- mean(sapply(population, "[[", "fitness"))
+  cat("\nGeneration:", currGeneration, "/", maxGeneration)
+  cat("\nFitness of best solution so far:", bestSolution$fitness)
+  cat("\nAverage fitness of population:", avgFitness)
+
+  return(NULL)
+}
