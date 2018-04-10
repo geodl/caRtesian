@@ -26,7 +26,7 @@ cgp <- function(dataset, model, functionSet = mathOpSet(),
   #######
   dataset <- read.csv("./data/x_squared_minus_y.csv")
   model <- output ~ x + y
-  maxGeneration <- 10
+  maxGenerations <- 10
   rowsFuncNodes <- 3
   colsFuncNodes <- 3
   levelsBack <- 2
@@ -66,18 +66,30 @@ cgp <- function(dataset, model, functionSet = mathOpSet(),
                                 functionSet = functionSet)
 
   #Run evolution
-  while(currGeneration < maxGeneration && !solutionFound) {
-    population2 <- selection(population, args[2], functionNodeStructure)
+  while(currGeneration < maxGenerations && !solutionFound) {
 
+    #Store the best solution found
+    bestSolution <- sortPopulation(population)[[1]]
+
+    printEvolutionDetails(currGeneration, maxGenerations,
+                          bestSolution, population)
+
+    #Perform selection on the population to generate the new population
+    population <- selection(population, args[2], functionNodeStructure)
+
+    #Calculate the fitness of the new population
     population <- calculatePopFitness(population, dataset,
                                       fitnessFunction, functionSet)
 
+    #Check if a solution has been found
     solutionFound <- checkSolutionFound(population)
     currGeneration <- currGeneration + 1
   }
 
   #Store the best solution found
   bestSolution <- sortPopulation(population)[[1]]
+
+  printEvolutionDetails(currGeneration, maxGeneration, bestSolution, population)
 
   #Return results to top level
   return(bestSolution)
