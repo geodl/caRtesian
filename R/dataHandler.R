@@ -139,23 +139,23 @@ validSelectionInput <- function(arguments) {
   providedArgsLength <- length(arguments$args)
 
   if (expectedArgsLength != providedArgsLength) {
-    cat("Error: The function provided expects ", expectedArgsLength,
-        " arguments but ", providedArgsLength, " were provided.")
+    message("Error: The function provided expects ", expectedArgsLength,
+        " arguments but ", providedArgsLength, " were provided.\n")
     return(FALSE)
   }
 
   if (!("population" %in% names(arguments$args))) {
-    cat("Error: 'population' was not found in arguments$args. The structure",
+    message("Error: 'population' was not found in arguments$args. The structure",
         "should follow list (func = foo, c('population' = NA, ...))\n")
     return(FALSE)
   }
 
   if (!is.na(arguments$args["population"])) {
-    cat("Error: 'population' parameter is not NA.\n")
+    message("Error: 'population' parameter is not NA.\n")
     return(FALSE)
   }
 
-  cat("Success: The provided arguments match the number of arguments the",
-      "provided function expects.")
+  message("Success: The provided arguments match the number of arguments the",
+      "provided function expects.\n")
   return(TRUE)
 }
