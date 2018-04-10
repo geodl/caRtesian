@@ -31,7 +31,7 @@ test_that("getValidInputs handles when chromoID is in the first column", {
                                 functionSet = mathOpSet())
 
   dummy <- matrix(0, nrow = 3, ncol = 8)
-  correctValidInputs <- dummy[,integer(0)]
+  correctValidInputs <- dummy[, integer(0)]
 
   validInputs <- getValidInputs(chromoID, functionNodeRange,
                                 functionNodeStructure)

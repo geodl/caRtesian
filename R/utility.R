@@ -43,7 +43,7 @@ getValidInputs <- function(chromoID, functionNodeRange, functionNodeStructure) {
                                ncol = functionNodeStructure$cols)
 
   #Find the column index containing chromoID
-  column <- which(functionNodeMatrix == chromoID, arr.ind = TRUE)[[1,2]]
+  column <- which(functionNodeMatrix == chromoID, arr.ind = TRUE)[[1, 2]]
 
 
   #Get the columns that are in the levelsBack range
@@ -99,7 +99,7 @@ findRow <- function(solution, chromoID) {
   chromoIDs <- solution$functionNodes$chromoID
 
   #If the chromoID is the ID of an inputNode
-  if(chromoID < min(chromoIDs)) {
+  if (chromoID < min(chromoIDs)) {
 
     #Find the rowIndex of the node with this chromoID
     rowIndex <- which(solution$inputNodes$chromoID == chromoID)
@@ -107,14 +107,15 @@ findRow <- function(solution, chromoID) {
     return(solution$inputNodes[rowIndex, ])
 
     #If the chromoID is the ID of an outputNode
-  } else if(chromoID > max(chromoIDs)) {
+  } else if (chromoID > max(chromoIDs)) {
 
     #Find the rowIndex of the node with this chromoID
     rowIndex <- which(solution$outputNodes$chromoID == chromoID)
 
     return(solution$outputNodes[rowIndex, ])
 
-  } else { #The chromoID is the ID of a functionNode
+  } else {
+    #The chromoID is the ID of a functionNode
 
     #Find the rowIndex of the node with this chromoID
     rowIndex <- which(solution$functionNodes$chromoID == chromoID)

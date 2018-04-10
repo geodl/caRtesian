@@ -19,7 +19,7 @@ muLambdaStrategy <- function(population, lambda, functionNodeStructure) {
 
   offspring <- vector(mode = "list", length = lambda)
 
-  for(i in 1:lambda) {
+  for (i in 1:lambda) {
 
     offspring[[i]] <- pointMutation(parent, functionNodeStructure)
 
@@ -57,10 +57,10 @@ pointMutation <- function(solution, functionNodeStructure) {
   nodesToMutate <- sample(mutableChromoIDs, size = numGenesToMutate,
                           replace = TRUE)
 
-  for(i in nodesToMutate) {
+  for (i in nodesToMutate) {
 
     #If the node is a functionNode and we want to mutate the function
-    if(is.functionNode(solution, i) && sample(0:1, size = 1) == 0) {
+    if (is.functionNode(solution, i) && sample(0:1, size = 1) == 0) {
       #Mutate the function
       solution <- mutateFunction(solution, i, functionNodeStructure)
 
@@ -68,7 +68,7 @@ pointMutation <- function(solution, functionNodeStructure) {
       #Mutate the nodes inputs
       mutation <- mutateInput(solution, i, functionNodeStructure)
 
-      if(is.functionNode(solution, i)) {
+      if (is.functionNode(solution, i)) {
         #Get the index of the node to be mutated
         nodeChanged <- which(solution$functionNodes$chromoID == i)
         solution$functionNodes$inputs[[nodeChanged]] <- mutation
@@ -103,7 +103,7 @@ mutateInput <- function(solution, chromoID, functionNodeStructure) {
   functionNodeRange <- solution$functionNodes$chromoID
 
   #If the node to change is an outputNode
-  if(is.outputNode(solution, chromoID)) {
+  if (is.outputNode(solution, chromoID)) {
     #Set the new input as a random node
     newInputs <- sample(c(inputNodeRange, functionNodeRange), size = 1)
   } else {
@@ -148,12 +148,13 @@ mutateFunction <- function(solution, chromoID, functionNodeStructure) {
   solution$functionNodes[nodeChanged, ]$funcID <- chosenFunc
 
   #Get the number of arguments that is currently used
-  numArguments <- length(unlist((solution$functionNodes[nodeChanged, ]$inputs)))
+  numArguments <- length(unlist(solution$functionNodes[nodeChanged, ]$inputs))
 
   #Get the inputs currently used
   oldInput <- unlist(solution$functionNodes[nodeChanged, ]$inputs)
 
-  if(numArguments < length(oldInput)) { #Need to add another input
+  if (numArguments < length(oldInput)) {
+    #Need to add another input
 
     #Get the chromoIDs from functionNodes data frame
     functionNodeRange <- solution$functionNodes$chromoID
@@ -168,7 +169,8 @@ mutateFunction <- function(solution, chromoID, functionNodeStructure) {
 
     solution$functionNodes$inputs[[nodeChanged]] <- c(oldInput, newInput)
 
-  } else if( numArguments > length(oldInput)) { #Need to remove an input
+  } else if (numArguments > length(oldInput)) {
+    #Need to remove an input
 
     #Choose a random input to remove
     remove <- sample(oldInput, size = 1)

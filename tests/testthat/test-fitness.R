@@ -67,7 +67,7 @@ test_that("nodesToProcess returns the correct nodes when a functionNode is used"
                              colsFuncNodes = 3, levelsBack = 2)[[1]]
 
   rowsToProcess <- c(4, 6, 13)
-  actualNodesToProcess <- solution$functionNodes[rowsToProcess,]
+  actualNodesToProcess <- solution$functionNodes[rowsToProcess, ]
 
   expect_equal(nodesToProcess(solution), actualNodesToProcess)
 
@@ -176,7 +176,7 @@ test_that("calculateValueInSolution calculates the value of the correct nodes", 
   solution <- calculateValueInSolution(solution, functionNodesUsed, functionSet)
 
   rowsWithNA <- is.na(solution$functionNodes$value)
-  rowsWithValues <- solution$functionNodes[!rowsWithNA,]
+  rowsWithValues <- solution$functionNodes[!rowsWithNA, ]
 
   incorrectRows <- setdiff(functionNodesUsed$chromoID, rowsWithValues$chromoID)
 

@@ -12,9 +12,9 @@
 calculatePopFitness <- function(population, dataset,
                                 fitnessFunction, functionSet) {
 
-  for(i in 1:length(population)) {
+  for (i in 1:length(population)) {
 
-    fitness = calculateFitness(population[[i]], dataset, fitnessFunction,
+    fitness <- calculateFitness(population[[i]], dataset, fitnessFunction,
                                functionSet)
 
     population[[i]]$fitness <- fitness
@@ -34,18 +34,18 @@ calculateFitness <- function(solution, dataset, fitnessFunction, functionSet) {
   #Create vector to hold results
   results <- vector(mode = "numeric", length = nrow(dataset))
 
-  for(i in 1:nrow(dataset)) {
+  for (i in 1:nrow(dataset)) {
 
     #Load the inputNodes with input data from the dataset
-    for(input in inputs) {
-      solution$inputNodes[input, ]$value <- dataset[i, ][[input+1]]
+    for (input in inputs) {
+      solution$inputNodes[input, ]$value <- dataset[i, ][[input + 1]]
     }
 
     #Decode the solution
     solution <- decode(solution, functionNodesUsed, functionSet)
 
     #Write the result of decoding into the results vector
-    results[i] <- solution$outputNodes[1,]$value
+    results[i] <- solution$outputNodes[1, ]$value
   }
 
 
@@ -68,9 +68,9 @@ calculateFitness <- function(solution, dataset, fitnessFunction, functionSet) {
 rmse <- function(data) {
 
   results <- vector(mode = "numeric", length = nrow(data))
-  for(i in 1:nrow(data)) {
+  for (i in 1:nrow(data)) {
     #Substract actual value from predicted value and square result
-    results[i] <- (data[i, ]$predicted - data[i, ]$actual)^2
+    results[i] <- (data[i, ]$predicted - data[i, ]$actual) ^ 2
   }
 
   #Square root the mean of the results
@@ -90,7 +90,7 @@ rmse <- function(data) {
 mae <- function(data) {
 
   results <- vector(mode = "numeric", length = nrow(data))
-  for(i in 1:nrow(data)) {
+  for (i in 1:nrow(data)) {
 
     #Subtract the predicted value from actual value and take the absolute value
     results[i] <- abs(data[i, ]$actual - data[i, ]$predicted)
@@ -150,7 +150,7 @@ nodesToProcess <- function(solution) {
 traverseFunctionNodes <- function(functionNodes, nodesUsed, chromoID) {
 
   #If the chromoID is now an inputNode
-  if(chromoID < functionNodes[1, ]$chromoID) {
+  if (chromoID < functionNodes[1, ]$chromoID) {
 
     return(nodesUsed)
   } else {
@@ -163,7 +163,7 @@ traverseFunctionNodes <- function(functionNodes, nodesUsed, chromoID) {
 
     #Recursively loop over the inputs of each node used
     inputs <- unlist(functionNodes[index, ]$inputs)
-    for(input in inputs) {
+    for (input in inputs) {
       nodesUsed <- traverseFunctionNodes(functionNodes, nodesUsed, input)
     }
 
@@ -219,11 +219,12 @@ calculateValue <- function(node, solution, functionSet) {
   firstArgument <- findRow(solution, inputs[1])$value
 
   #If the function takes two parameters
-  if(length(inputs) == 2) {
+  if (length(inputs) == 2) {
     #Get the value of the second argument of the funcToCall
     secondArgument <- findRow(solution, inputs[2])$value
     value <- do.call(funcToCall, list(firstArgument, secondArgument))
-  } else { #The function takes one parameter
+  } else {
+    #The function takes one parameter
     value <- do.call(funcToCall, list(firstArgument))
   }
 
@@ -244,8 +245,8 @@ calculateValue <- function(node, solution, functionSet) {
 calculateValueInSolution <- function(solution, functionNodesUsed, functionSet) {
 
   #If the solution uses functionNodes
-  if(nrow(functionNodesUsed) != 0) {
-    for(i in 1:nrow(functionNodesUsed)) {
+  if (nrow(functionNodesUsed) != 0) {
+    for (i in 1:nrow(functionNodesUsed)) {
 
       #Store the current node
       currentNode <- functionNodesUsed[i, ]
@@ -290,7 +291,7 @@ calculateValueInSolution <- function(solution, functionNodesUsed, functionSet) {
 calculateValue2 <- function(node, solution, functionSet) {
 
   #If this is null then the node is an input node and the value can be extracted
-  if(is.null(node$inputs)) {
+  if (is.null(node$inputs)) {
     return(node$value)
   } else {
 
@@ -304,7 +305,7 @@ calculateValue2 <- function(node, solution, functionSet) {
     #Calculate the value of this node
     firstArgument <- calculateValue2(firstInput, solution, functionSet)
 
-    if(length(inputs) == 2) {
+    if (length(inputs) == 2) {
       #Get the node which is the second argument of the funcToCall
       secondInput <- findRow(solution, inputs[2])
       #Calculate the value of this node

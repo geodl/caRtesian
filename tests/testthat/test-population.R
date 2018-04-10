@@ -175,14 +175,14 @@ test_that("updateValidInputs handles where validInputs has more columns
 
 test_that("initPopulation returns the correct number of solutions", {
 
-  popsize1 = 5
+  popsize1 <- 5
   population1 <- initPopulation(popsize1, arithmeticSet(), inputSize = 2,
                                 outputSize = 1, rowsFuncNodes = 2,
                                 colsFuncNodes = 2, levelsBack = 2)
 
   expect_equal(length(population1), popsize1)
 
-  popsize2 = 10
+  popsize2 <- 10
   population2 <- initPopulation(popsize2, mathOpSet(), inputSize = 5,
                                 outputSize = 1, rowsFuncNodes = 6,
                                 colsFuncNodes = 3, levelsBack = 3)
@@ -198,9 +198,9 @@ test_that("initPopulation returns a list with the correct structure", {
 
   keys <- sapply(population, names)
 
-  expect_true(all(sapply(keys[1,], function(x){ x == "inputNodes"})))
-  expect_true(all(sapply(keys[2,], function(x){ x == "functionNodes"})))
-  expect_true(all(sapply(keys[3,], function(x){ x == "outputNodes"})))
+  expect_true(all(sapply(keys[1, ], function(x){ x == "inputNodes"})))
+  expect_true(all(sapply(keys[2, ], function(x){ x == "functionNodes"})))
+  expect_true(all(sapply(keys[3, ], function(x){ x == "outputNodes"})))
 
   expect_true(all(apply(keys, MARGIN = 2, FUN = function(x){
     return(x[1] == "inputNodes" &&

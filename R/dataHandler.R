@@ -78,8 +78,8 @@ extractRequiredFields <- function(dataset, model) {
     missingVariables <- c()
 
     #Find the variables missing from datasetColumns
-    for(i in modelVariables) {
-      if(!is.element(i, datasetColumns)) {
+    for (i in modelVariables) {
+      if (!is.element(i, datasetColumns)) {
         missingVariables <- c(missingVariables, i)
       }
     }
@@ -138,19 +138,19 @@ validSelectionInput <- function(arguments) {
   expectedArgsLength <- length(formals(arguments$func))
   providedArgsLength <- length(arguments$args)
 
-  if(expectedArgsLength != providedArgsLength) {
+  if (expectedArgsLength != providedArgsLength) {
     cat("Error: The function provided expects ", expectedArgsLength,
         " arguments but ", providedArgsLength, " were provided.")
     return(FALSE)
   }
 
-  if(!("population" %in% names(arguments$args))) {
+  if (!("population" %in% names(arguments$args))) {
     cat("Error: 'population' was not found in arguments$args. The structure",
         "should follow list (func = foo, c('population' = NA, ...))\n")
     return(FALSE)
   }
 
-  if(!is.na(arguments$args["population"])) {
+  if (!is.na(arguments$args["population"])) {
     cat("Error: 'population' parameter is not NA.\n")
     return(FALSE)
   }

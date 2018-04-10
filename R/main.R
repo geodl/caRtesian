@@ -33,7 +33,7 @@ cgp <- function(dataset, model, functionSet = mathOpSet(),
   popSize <- 5
   functionSet <- mathOpSet()
   fitnessFunction <- mae
-  selectionMethod = list(func = muLambdaStrategy,
+  selectionMethod <- list(func = muLambdaStrategy,
                          args = c(population = NA, 4, NA))
   #######
 
@@ -66,7 +66,7 @@ cgp <- function(dataset, model, functionSet = mathOpSet(),
                                 functionSet = functionSet)
 
   #Run evolution
-  while(currGeneration < maxGenerations && !solutionFound) {
+  while (currGeneration < maxGenerations && !solutionFound) {
 
     #Store the best solution found
     bestSolution <- sortPopulation(population)[[1]]
@@ -89,7 +89,8 @@ cgp <- function(dataset, model, functionSet = mathOpSet(),
   #Store the best solution found
   bestSolution <- sortPopulation(population)[[1]]
 
-  printEvolutionDetails(currGeneration, maxGeneration, bestSolution, population)
+  printEvolutionDetails(currGeneration, maxGenerations,
+                        bestSolution, population)
 
   #Return results to top level
   return(bestSolution)
