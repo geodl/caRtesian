@@ -14,11 +14,10 @@ calculatePopFitness <- function(population, dataset,
 
   for(i in 1:length(population)) {
 
-    cat("This is population", i, "Trying to calculate fitness\n")
     fitness = calculateFitness(population[[i]], dataset, fitnessFunction,
                                functionSet)
 
-    population[[i]] <- c(population[[i]], fitness = fitness)
+    population[[i]]$fitness <- fitness
   }
 
   return(population)
@@ -67,8 +66,6 @@ calculateFitness <- function(solution, dataset, fitnessFunction, functionSet) {
 #' @return the rmse value
 #' @export
 rmse <- function(data) {
-
-  data <- outputs
 
   results <- vector(mode = "numeric", length = nrow(data))
   for(i in 1:nrow(data)) {
@@ -176,21 +173,23 @@ traverseFunctionNodes <- function(functionNodes, nodesUsed, chromoID) {
 
 #' decode
 #'
-#' Decodes the solution and returns the output value of it.
+#' Decodes the solution
 #'
 #' @param solution the solution containing the nodes
 #' @param functionNodesUsed the function nodes required to get an output value
 #' @param functionSet the functionSet used when creating the population
 #'
-#' @return the output value
+#' @return the solution with updated values inside
 #'
 decode <- function(solution, functionNodesUsed, functionSet) {
 
   #Get the chromoID of the last functionNode used
-  endFunctionNode <- solution$outputNodes[1,]$inputs
+  #endFunctionNode <- solution$outputNodes[1,]$inputs
 
   #Find the row which contains the chromoID found
-  row <- findRow(solution, endFunctionNode)
+  #row <- findRow(solution, endFunctionNode)
+
+  #solution <- calculateValue2(row, solution, functionSet)
 
   #Calculate the values of all the required nodes
   solution <- calculateValueInSolution(solution, functionNodesUsed, functionSet)
