@@ -42,7 +42,9 @@ test_that("getValidInputs handles when chromoID is in the first column", {
 
 test_that("is.functionNode returns the correct result for different input", {
 
-  solution <- initPopulation(1, arithmeticSet(), 3, 1, 4, 4, 2)[[1]]
+  solution <- initPopulation(1, arithmeticSet(), inputSize = 3,
+                             outputSize = 1, rowsFuncNodes = 4,
+                             colsFuncNodes = 4, levelsBack = 2)[[1]]
 
   minID <- min(solution$functionNodes$chromoID)
   maxID <- max(solution$functionNodes$chromoID)
@@ -58,7 +60,9 @@ test_that("is.functionNode returns the correct result for different input", {
 
 test_that("is.outputNode returns the correct result for different input", {
 
-  solution <- initPopulation(1, arithmeticSet(), 3, 1, 4, 4, 2)[[1]]
+  solution <- initPopulation(1, arithmeticSet(), inputSize = 3,
+                             outputSize = 1, rowsFuncNodes = 4,
+                             colsFuncNodes = 4, levelsBack = 2)[[1]]
 
   chosenNode <- min(solution$outputNodes$chromoID)
 
@@ -71,7 +75,9 @@ test_that("is.outputNode returns the correct result for different input", {
 
 test_that("findRow returns the correct row", {
 
-  solution <- initPopulation(1, mathOpSet(), 2, 1, 6, 3, 3)[[1]]
+  solution <- initPopulation(1, mathOpSet(), inputSize = 2,
+                             outputSize = 1, rowsFuncNodes = 6,
+                             colsFuncNodes = 3, levelsBack = 3)[[1]]
 
   chromoID <- 2
   rowReturned <- findRow(solution, chromoID)
@@ -95,7 +101,9 @@ test_that("findRow returns the correct row", {
 
 test_that("sortPopulation orders the population correctly", {
 
-  population <- initPopulation(5, arithmeticSet(), 2, 1, 3, 3, 2)
+  population <- initPopulation(5, arithmeticSet(), inputSize = 2,
+                               outputSize = 1, rowsFuncNodes = 3,
+                               colsFuncNodes = 3, levelsBack = 2)
 
   population[[1]]$fitness <- 10
   population[[2]]$fitness <- 8
@@ -111,7 +119,9 @@ test_that("sortPopulation orders the population correctly", {
 
 test_that("sortPopulation correctly puts NA values last", {
 
-  population <- initPopulation(5, arithmeticSet(), 2, 1, 3, 3, 2)
+  population <- initPopulation(5, arithmeticSet(), inputSize = 2,
+                               outputSize = 1, rowsFuncNodes = 3,
+                               colsFuncNodes = 3, levelsBack = 2)
 
   population[[1]]$fitness <- 1
   population[[2]]$fitness <- 2
@@ -126,6 +136,29 @@ test_that("sortPopulation correctly puts NA values last", {
                      population[[4]],
                      population[[5]],
                      population[[3]])
+
+  expect_equal(sorted, population)
+})
+
+test_that("sortPopulation correctly puts Inf values last", {
+
+  population <- initPopulation(5, arithmeticSet(), inputSize = 2,
+                               outputSize = 1, rowsFuncNodes = 3,
+                               colsFuncNodes = 3, levelsBack = 2)
+
+  population[[1]]$fitness <- 1
+  population[[2]]$fitness <- 2
+  population[[3]]$fitness <- Inf
+  population[[4]]$fitness <- Inf
+  population[[5]]$fitness <- 10
+
+  sorted <- sortPopulation(population)
+
+  population <- list(population[[1]],
+                     population[[2]],
+                     population[[5]],
+                     population[[3]],
+                     population[[4]])
 
   expect_equal(sorted, population)
 })
