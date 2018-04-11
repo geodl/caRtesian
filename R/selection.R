@@ -40,8 +40,8 @@ muLambdaStrategy <- function(population, lambda, functionNodeStructure) {
 #'
 pointMutation <- function(solution, functionNodeStructure) {
 
-  #Mutate 5% of the genes
-  maxGenesToMutate <- ceiling(0.05 * (nrow(solution$functionNodes) +
+  #Mutate 10% of the genes
+  maxGenesToMutate <- ceiling(0.1 * (nrow(solution$functionNodes) +
                                         nrow(solution$outputNodes))) * 3
 
   #Randomly choose how many genes to change
@@ -147,13 +147,13 @@ mutateFunction <- function(solution, chromoID, functionNodeStructure) {
   chosenFunc <- sample(1:nrow(funcSet), size = 1)
   solution$functionNodes[nodeChanged, ]$funcID <- chosenFunc
 
-  #Get the number of arguments that is currently used
-  numArguments <- length(unlist(solution$functionNodes[nodeChanged, ]$inputs))
+  #Get the arity of the new function that is currently used
+  arity <- funcSet[chosenFunc,]$arity
 
   #Get the inputs currently used
   oldInput <- unlist(solution$functionNodes[nodeChanged, ]$inputs)
 
-  if (numArguments < length(oldInput)) {
+  if (length(oldInput) < arity) {
     #Need to add another input
 
     #Get the chromoIDs from functionNodes data frame
@@ -164,12 +164,15 @@ mutateFunction <- function(solution, chromoID, functionNodeStructure) {
                                         functionNodeRange,
                                         functionNodeStructure)
 
+    #Get the chromoIDs of the inputNodes
+    inputNodeRange <- solution$inputNodes$chromoID
+
     #Randomly generate an input chromoID
-    newInput <- sample(functionNodeRange, size = 1)
+    newInput <- sample(c(inputNodeRange, functionNodeRange), size = 1)
 
     solution$functionNodes$inputs[[nodeChanged]] <- c(oldInput, newInput)
 
-  } else if (numArguments > length(oldInput)) {
+  } else if (length(oldInput) > arity ) {
     #Need to remove an input
 
     #Choose a random input to remove
