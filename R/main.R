@@ -17,25 +17,10 @@
 #' @export
 cgp <- function(dataset, model, functionSet = mathOpSet(),
                 maxGenerations, fitnessFunction = mae,
-                selectionMethod = list(func = muLambda,
+                selectionMethod = list(func = muLambdaStrategy,
                                        args = c(population = NA, 4, NA)),
                 rowsFuncNodes, colsFuncNodes, levelsBack,
                 popSize) {
-
-
-  #######
-  dataset <- read.csv("./data/x_squared_minus_y.csv")
-  model <- output ~ x + y
-  maxGenerations <- 10
-  rowsFuncNodes <- 3
-  colsFuncNodes <- 3
-  levelsBack <- 2
-  popSize <- 5
-  functionSet <- mathOpSet()
-  fitnessFunction <- mae
-  selectionMethod <- list(func = muLambdaStrategy,
-                         args = c(population = NA, 4, NA))
-  #######
 
   #Extract only the required fields from the dataset
   dataset <- extractRequiredFields(dataset, model)
@@ -56,7 +41,7 @@ cgp <- function(dataset, model, functionSet = mathOpSet(),
   selection <- selectionMethod$func
   args <- selectionMethod$args
   population <- sortPopulation(population)
-  currGeneration <- 0
+  currGeneration <- 1
   solutionFound <- FALSE
 
   #Wrap the parameters used to create the functionNodes into a list
@@ -66,7 +51,7 @@ cgp <- function(dataset, model, functionSet = mathOpSet(),
                                 functionSet = functionSet)
 
   #Run evolution
-  while (currGeneration < maxGenerations && !solutionFound) {
+  while (currGeneration <= maxGenerations && !solutionFound) {
 
     #Store the best solution found
     bestSolution <- sortPopulation(population)[[1]]
