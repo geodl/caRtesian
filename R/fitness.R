@@ -173,7 +173,8 @@ traverseFunctionNodes <- function(functionNodes, nodesUsed, chromoID) {
 
 #' decode
 #'
-#' Decodes the solution
+#' Decodes the solution. Uses calculateValueInSolution so that the values
+#' calculated are stored within the solution for future use
 #'
 #' @param solution the solution containing the nodes
 #' @param functionNodesUsed the function nodes required to get an output value
@@ -182,14 +183,6 @@ traverseFunctionNodes <- function(functionNodes, nodesUsed, chromoID) {
 #' @return the solution with updated values inside
 #'
 decode <- function(solution, functionNodesUsed, functionSet) {
-
-  #Get the chromoID of the last functionNode used
-  #endFunctionNode <- solution$outputNodes[1,]$inputs
-
-  #Find the row which contains the chromoID found
-  #row <- findRow(solution, endFunctionNode)
-
-  #solution <- calculateValue2(row, solution, functionSet)
 
   #Calculate the values of all the required nodes
   solution <- calculateValueInSolution(solution, functionNodesUsed, functionSet)
@@ -317,4 +310,28 @@ calculateValue2 <- function(node, solution, functionSet) {
 
     return(nodeValue)
   }
+}
+
+#' decode2
+#'
+#' Decodes the solution. This should be used once the cgp function has passed
+#' a solution out of the program as this decoding method produces a value
+#' quicker
+#'
+#' @param solution the solution containing the nodes
+#' @param functionSet the functionSet used when creating the solution
+#'
+#' @return the value calculated
+#'
+decode2 <- function(solution, functionSet) {
+
+  #Get the chromoID of the last functionNode used
+  endFunctionNode <- solution$outputNodes[1,]$inputs
+
+  #Find the row which contains the chromoID found
+  row <- findRow(solution, endFunctionNode)
+
+  value <- calculateValue2(row, solution, functionSet)
+
+  return(value)
 }
