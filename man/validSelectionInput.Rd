@@ -17,5 +17,5 @@ Checks that the number of arguments provided matches the what the provided
 function expects.
 }
 \examples{
-validSelectionInput(list(func = foo, c("population" = NA, ...)))
+validSelectionInput(list(func = foo, args = c(population = NA, ...)))
 }

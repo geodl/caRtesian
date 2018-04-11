@@ -5,8 +5,9 @@
 \title{cgp}
 \usage{
 cgp(dataset, model, functionSet = mathOpSet(), maxGenerations,
-  fitnessFunction = mae, selectionMethod = list(func = muLambda, args =
-  c(population = NA, 4, NA)), rowsFuncNodes, colsFuncNodes, levelsBack, popSize)
+  fitnessFunction = mae, selectionMethod = list(func = muLambdaStrategy,
+  args = c(population = NA, 4, NA)), rowsFuncNodes, colsFuncNodes, levelsBack,
+  popSize = 5)
 }
 \arguments{
 \item{dataset}{the dataset to use for training}

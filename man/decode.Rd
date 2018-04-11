@@ -14,8 +14,9 @@ decode(solution, functionNodesUsed, functionSet)
 \item{functionSet}{the functionSet used when creating the population}
 }
 \value{
-the output value
+the solution with updated values inside
 }
 \description{
-Decodes the solution and returns the output value of it.
+Decodes the solution. Uses calculateValueInSolution so that the values
+calculated are stored within the solution for future use
 }
