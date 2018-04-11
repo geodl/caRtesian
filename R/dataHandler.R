@@ -145,8 +145,9 @@ validSelectionInput <- function(arguments) {
   }
 
   if (!("population" %in% names(arguments$args))) {
-    message("Error: 'population' was not found in arguments$args. The structure",
-        "should follow list (func = foo, c('population' = NA, ...))\n")
+    message("Error: 'population' was not found in arguments$args. The ",
+        "structure should follow list (func = foo, c('population' = NA, ...))",
+        "\n")
     return(FALSE)
   }
 
