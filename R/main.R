@@ -20,7 +20,7 @@ cgp <- function(dataset, model, functionSet = mathOpSet(),
                 selectionMethod = list(func = muLambdaStrategy,
                                        args = c(population = NA, 4, NA)),
                 rowsFuncNodes, colsFuncNodes, levelsBack,
-                popSize) {
+                popSize = 5) {
 
   #Extract only the required fields from the dataset
   dataset <- extractRequiredFields(dataset, model)
@@ -77,6 +77,20 @@ cgp <- function(dataset, model, functionSet = mathOpSet(),
   printEvolutionDetails(currGeneration, maxGenerations,
                         bestSolution, population)
 
+  #Extract only the nodes used to get an output value
+  bestSolution <- extractRequiredNodes(bestSolution)
+
+  #Create a character vector showing the functions applied
+  #to get an output value
+  text <- printSolution(bestSolution, functionSet)
+
+  #Create a list containing the bestSolution, textual format
+  #of the bestSolution, and the functionSet used so that the
+  #solution can be used outside of this program
+  solution <- list(bestSolution = bestSolution,
+                   textualFormat = text,
+                   functionSet = functionSet)
+
   #Return results to top level
-  return(bestSolution)
+  return(solution)
 }
