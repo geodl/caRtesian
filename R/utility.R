@@ -53,7 +53,7 @@ getValidInputs <- function(chromoID, functionNodeRange, functionNodeStructure) {
   #Extract the chromoIDs from the validColumns
   validChromoIDs <- functionNodeMatrix[, validColumns]
 
-  return(unlist(validChromoIDs))
+  return(as.vector(validChromoIDs))
 }
 
 #' is.functionNode

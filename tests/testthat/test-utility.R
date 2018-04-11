@@ -19,7 +19,7 @@ test_that("getValidInputs returns the correct inputs", {
   validInputs <- getValidInputs(chromoID, functionNodeRange,
                                 functionNodeStructure)
 
-  expect_equal(validInputs, correctValidInputs)
+  expect_equal(validInputs, as.vector(correctValidInputs))
 
 })
 
@@ -36,7 +36,7 @@ test_that("getValidInputs handles when chromoID is in the first column", {
   validInputs <- getValidInputs(chromoID, functionNodeRange,
                                 functionNodeStructure)
 
-  expect_equal(validInputs, correctValidInputs)
+  expect_equal(validInputs, as.vector(correctValidInputs))
 
 })
 
