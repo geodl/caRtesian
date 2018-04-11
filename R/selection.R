@@ -148,7 +148,7 @@ mutateFunction <- function(solution, chromoID, functionNodeStructure) {
   solution$functionNodes[nodeChanged, ]$funcID <- chosenFunc
 
   #Get the arity of the new function that is currently used
-  arity <- funcSet[chosenFunc,]$arity
+  arity <- funcSet[chosenFunc, ]$arity
 
   #Get the inputs currently used
   oldInput <- unlist(solution$functionNodes[nodeChanged, ]$inputs)
