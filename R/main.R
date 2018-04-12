@@ -50,6 +50,11 @@ cgp <- function(dataset, model, functionSet = mathOpSet(),
                                 levelsBack = levelsBack,
                                 functionSet = functionSet)
 
+  #Create a dataframe to hold the results to be plotted
+  plotData <- data.frame(generation = integer(),
+                         bestFitness = numeric(),
+                         averageFitness = numeric())
+
   #Run evolution
   while (currGeneration <= maxGenerations && !solutionFound) {
 
@@ -58,6 +63,12 @@ cgp <- function(dataset, model, functionSet = mathOpSet(),
 
     printEvolutionDetails(currGeneration, maxGenerations,
                           bestSolution, population)
+
+    #Store the fitness data in plotData
+    avgFitness <- mean(sapply(population, "[[", "fitness"))
+    plotData[currGeneration, ] <- c(currGeneration,
+                                    bestSolution$fitness,
+                                    avgFitness)
 
     #Perform selection on the population to generate the new population
     population <- selection(population, args[2], functionNodeStructure)
@@ -77,6 +88,12 @@ cgp <- function(dataset, model, functionSet = mathOpSet(),
   printEvolutionDetails(currGeneration, maxGenerations,
                         bestSolution, population)
 
+  #Store the fitness data in plotData
+  avgFitness <- mean(sapply(population, "[[", "fitness"))
+  plotData[currGeneration, ] <- c(currGeneration,
+                                  bestSolution$fitness,
+                                  avgFitness)
+
   #Extract only the nodes used to get an output value
   bestSolution <- extractRequiredNodes(bestSolution)
 
@@ -89,7 +106,8 @@ cgp <- function(dataset, model, functionSet = mathOpSet(),
   #solution can be used outside of this program
   solution <- list(bestSolution = bestSolution,
                    textualFormat = text,
-                   functionSet = functionSet)
+                   functionSet = functionSet,
+                   plotData = plotData)
 
   #Return results to top level
   return(solution)
