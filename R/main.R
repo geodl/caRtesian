@@ -95,6 +95,9 @@ cgp <- function(dataset, model, functionSet = mathOpSet(),
                                   bestSolution$fitness,
                                   avgFitness)
 
+  #Load a plot of the data
+  plotGraph(plotData)
+
   #Extract only the nodes used to get an output value
   bestSolution <- extractRequiredNodes(bestSolution)
 

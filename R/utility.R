@@ -259,3 +259,41 @@ buildSolutionText <- function(functionNodes, functionSet, chromoID) {
   return(functionText)
 }
 
+#' plotGraph
+#'
+#' Plots the graph using ggplot2 and plotly and displays it in an interactive
+#' shiny window through the browser.
+#'
+#' @param plotData the data to plot
+#'
+plotGraph <- function(plotData) {
+
+  #This function was adapted from Michael Majka's answer on Stack Overflow
+  #The thread can be found here:
+  #https://stackoverflow.com/a/38919892/4474422
+
+  library(ggplot2)
+  library(shiny)
+  library(plotly)
+
+  rows <- nrow(plotData)
+  breaks <- round(c(1, rows * 0.125, rows * 0.25, rows * 0.375, rows * 0.5,
+                    rows * 0.625, rows * 0.75, rows * 0.875, rows))
+
+  ui <- fluidPage(
+    plotlyOutput("fitnessPlot")
+  )
+
+  server <- function(input, output) {
+    output$fitnessPlot <- renderPlotly({
+      ggplot(plotData, aes(x = generation, y = bestFitness)) +
+        geom_line(colour = "firebrick") +
+        geom_point(colour = "firebrick") +
+        scale_x_continuous(breaks = breaks) +
+        xlab("Generation") + ylab("Fitness Value") +
+        ggtitle("Fitness Values from each Generation")
+    })
+  }
+
+  shinyApp(ui = ui, server = server)
+}
