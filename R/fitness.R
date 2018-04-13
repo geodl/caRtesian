@@ -203,10 +203,10 @@ decode <- function(solution, functionNodesUsed, functionSet) {
 #'
 calculateValue <- function(node, solution, functionSet) {
 
-  #Get the name of the functiob to call from the functionSet
+  #Get the name of the function to call from the functionSet
   funcToCall <- functionSet[node$funcID, ]$funcName
 
-  inputs <- unlist(node$input[[1]])
+  inputs <- unlist(node$inputs[[1]])
 
   #Get the value of the first argument of the funcToCall
   firstArgument <- findRow(solution, inputs[1])$value

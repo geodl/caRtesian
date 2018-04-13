@@ -15,7 +15,7 @@ muLambdaStrategy <- function(population, lambda, functionNodeStructure) {
   lambda <- 4
 
   #Extract the fittest individual
-  parent <- population[[1]]
+  parent <- sortPopulation(population)[[1]]
 
   offspring <- vector(mode = "list", length = lambda)
 
@@ -113,12 +113,22 @@ mutateInput <- function(solution, chromoID, functionNodeStructure) {
                                         functionNodeStructure)
 
     #Get the number of inputs to the functionNode
-    numInputs <- length(unlist(findRow(solution, chromoID)$inputs))
+    index <- which(solution$functionNodes$chromoID == chromoID)
+    numInputs <- length(unlist(solution$functionNodes[index, ]$inputs))
 
     #Randomly generate input chromoIDs
     newInputs <- sample(c(inputNodeRange, functionNodeRange),
-                        size = numInputs,
-                        replace = TRUE)
+                        size = 1)
+
+    if(numInputs == 2) {
+      #Change either the first or second input
+      inputToKeep <- sample(1:numInputs, size = 1)
+      if(inputToKeep == 1) {
+        newInputs <- c(solution$functionNodes[index, ]$inputs[[1]][1], newInputs)
+      } else {
+        newInputs <- c(newInputs, solution$functionNodes[index, ]$inputs[[1]][2])
+      }
+    }
   }
 
   return(newInputs)
@@ -147,7 +157,7 @@ mutateFunction <- function(solution, chromoID, functionNodeStructure) {
   chosenFunc <- sample(1:nrow(funcSet), size = 1)
   solution$functionNodes[nodeChanged, ]$funcID <- chosenFunc
 
-  #Get the arity of the new function that is currently used
+  #Get the arity of the new function
   arity <- funcSet[chosenFunc, ]$arity
 
   #Get the inputs currently used
@@ -175,13 +185,23 @@ mutateFunction <- function(solution, chromoID, functionNodeStructure) {
   } else if (length(oldInput) > arity ) {
     #Need to remove an input
 
+
+    #Choose a random input to keep
+    inputToKeep <- sample(oldInput, size = 1)
+
+    #Remove the other input
+    solution$functionNodes$inputs[[nodeChanged]] <- c(inputToKeep)
+
+
+
+
     #Choose a random input to remove
-    remove <- sample(oldInput, size = 1)
-    remove <- solution$functionNodes$inputs[[nodeChanged]] != remove
+    #remove <- sample(oldInput, size = 1)
+    #remove <- solution$functionNodes$inputs[[nodeChanged]] != remove
 
     #Remove the random input
-    solution$functionNodes$inputs[[nodeChanged]] <-
-      solution$functionNodes$inputs[[nodeChanged]][remove]
+    #solution$functionNodes$inputs[[nodeChanged]] <-
+    #  solution$functionNodes$inputs[[nodeChanged]][remove]
 
   }
 
