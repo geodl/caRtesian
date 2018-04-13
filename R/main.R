@@ -40,8 +40,7 @@ cgp <- function(dataset, model, functionSet = mathOpSet(),
   #Setup variables required for evolutionary process
   selection <- selectionMethod$func
   args <- selectionMethod$args
-  population <- sortPopulation(population)
-  currGeneration <- 1
+  currGeneration <- 0
   solutionFound <- FALSE
 
   #Wrap the parameters used to create the functionNodes into a list
@@ -56,10 +55,13 @@ cgp <- function(dataset, model, functionSet = mathOpSet(),
                          averageFitness = numeric())
 
   #Run evolution
-  while (currGeneration <= maxGenerations && !solutionFound) {
+  while (currGeneration < maxGenerations && !solutionFound) {
 
-    #Store the best solution found
-    bestSolution <- sortPopulation(population)[[1]]
+    currGeneration <- currGeneration + 1
+
+    #Sort the population and store the best solution
+    population <- sortPopulation(population)
+    bestSolution <- population[[1]]
 
     printEvolutionDetails(currGeneration, maxGenerations,
                           bestSolution, population)
@@ -79,7 +81,6 @@ cgp <- function(dataset, model, functionSet = mathOpSet(),
 
     #Check if a solution has been found
     solutionFound <- checkSolutionFound(population)
-    currGeneration <- currGeneration + 1
   }
 
   #Store the best solution found
