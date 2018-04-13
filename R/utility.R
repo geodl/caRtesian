@@ -222,7 +222,7 @@ printSolution <- function(solution, functionSet) {
 buildSolutionText <- function(functionNodes, functionSet, chromoID) {
 
   #If the chromoID is the ID of an inputNode
-  if(chromoID < min(functionNodes$chromoID)) {
+  if (chromoID < min(functionNodes$chromoID)) {
     #Write a variable name into functionText
     functionText <- letters[chromoID]
     #If the function has two arguments
@@ -240,7 +240,7 @@ buildSolutionText <- function(functionNodes, functionSet, chromoID) {
     #Create the structure for a one parameter function
     functionText <- paste(func$funcName, "(x)", sep = "")
 
-    if(func$arity == 2) {
+    if (func$arity == 2) {
       #Create the structure for a two parameter function
       functionText <- paste("(x ", func$funcName, " y)", sep = "")
 

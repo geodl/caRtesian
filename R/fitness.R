@@ -326,7 +326,7 @@ calculateValue2 <- function(node, solution, functionSet) {
 decode2 <- function(solution, functionSet) {
 
   #Get the chromoID of the last functionNode used
-  endFunctionNode <- solution$outputNodes[1,]$inputs
+  endFunctionNode <- solution$outputNodes[1, ]$inputs
 
   #Find the row which contains the chromoID found
   row <- findRow(solution, endFunctionNode)

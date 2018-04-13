@@ -12,8 +12,6 @@
 #'
 muLambdaStrategy <- function(population, lambda, functionNodeStructure) {
 
-  lambda <- 4
-
   #Extract the fittest individual
   parent <- sortPopulation(population)[[1]]
 
@@ -120,13 +118,15 @@ mutateInput <- function(solution, chromoID, functionNodeStructure) {
     newInputs <- sample(c(inputNodeRange, functionNodeRange),
                         size = 1)
 
-    if(numInputs == 2) {
+    if (numInputs == 2) {
       #Change either the first or second input
       inputToKeep <- sample(1:numInputs, size = 1)
-      if(inputToKeep == 1) {
-        newInputs <- c(solution$functionNodes[index, ]$inputs[[1]][1], newInputs)
+      if (inputToKeep == 1) {
+        newInputs <- c(solution$functionNodes[index, ]$inputs[[1]][1],
+                       newInputs)
       } else {
-        newInputs <- c(newInputs, solution$functionNodes[index, ]$inputs[[1]][2])
+        newInputs <- c(newInputs,
+                       solution$functionNodes[index, ]$inputs[[1]][2])
       }
     }
   }
@@ -185,23 +185,11 @@ mutateFunction <- function(solution, chromoID, functionNodeStructure) {
   } else if (length(oldInput) > arity ) {
     #Need to remove an input
 
-
     #Choose a random input to keep
     inputToKeep <- sample(oldInput, size = 1)
 
     #Remove the other input
     solution$functionNodes$inputs[[nodeChanged]] <- c(inputToKeep)
-
-
-
-
-    #Choose a random input to remove
-    #remove <- sample(oldInput, size = 1)
-    #remove <- solution$functionNodes$inputs[[nodeChanged]] != remove
-
-    #Remove the random input
-    #solution$functionNodes$inputs[[nodeChanged]] <-
-    #  solution$functionNodes$inputs[[nodeChanged]][remove]
 
   }
 
