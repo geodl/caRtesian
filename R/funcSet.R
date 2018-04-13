@@ -3,6 +3,7 @@
 #' Creates a function set containing the basic arithmetic operators (+, -, *, /)
 #'
 #' @return the function set created
+#' @export
 #' @examples
 #' arithmeticSet()
 arithmeticSet <- function() {
@@ -24,6 +25,7 @@ arithmeticSet <- function() {
 #' Creates a function set containing the trigonometric operators (sin, cos, tan)
 #'
 #' @return the function set created
+#' @export
 #' @examples
 #' trigonometricSet()
 trigonometricSet <- function() {
@@ -40,6 +42,7 @@ trigonometricSet <- function() {
 #' Creates a function set containing the log, exp and sqrt functions
 #'
 #' @return the function set created
+#' @export
 #' @examples
 #' complexSet()
 complexSet <- function() {
@@ -67,6 +70,7 @@ complexSet <- function() {
 #' in the package
 #'
 #' @return the function set created
+#' @export
 #' @examples
 #' mathOpSet()
 mathOpSet <- function() {
@@ -81,6 +85,7 @@ mathOpSet <- function() {
 #' @param functionDefs the function definitions
 #'
 #' @return the function set created
+#' @export
 #' @examples
 #' constructFuncSet(c(c("add", 2), c("sqrt", 1)))
 constructFuncSet <- function(functionDefs) {

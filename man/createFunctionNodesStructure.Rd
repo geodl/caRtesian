@@ -16,6 +16,3 @@ the data frame created
 Creates a data frame containing the structure of a function node. The data
 frame is the length set in the generateFunctionNodes parameters.
 }
-\examples{
-createFunctionNodesStructure()
-}

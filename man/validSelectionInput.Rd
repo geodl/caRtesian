@@ -17,5 +17,10 @@ Checks that the number of arguments provided matches the what the provided
 function expects.
 }
 \examples{
-validSelectionInput(list(func = foo, args = c(population = NA, ...)))
+
+foo <- function() {}
+
+#Extra parameters to be added in the args member to match the parameters
+#foo expects
+validSelectionInput(list(func = foo, args = c(population = NA)))
 }

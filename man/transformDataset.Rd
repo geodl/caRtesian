@@ -18,7 +18,3 @@ the data frame after transformation
 Transforms the given data frame so that the columns specified by outputColumns
 are moved to the end of the data frame.
 }
-\examples{
-transformDataset(dataset, c(3, 4))
-transformDataset(dataset, 4)
-}

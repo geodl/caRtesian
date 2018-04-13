@@ -28,7 +28,3 @@ chromosome. The value field of each row is set as NA initially. The funcID
 field is the ID a random function chosen from the functionSet. The input
 field is a vector of valid nodes to use as arguments to the function field.
 }
-\examples{
-generateFunctionNodes(2, 4, 2)
-generateFunctionNodes(nrows = 3, ncols = 4, levelsBack = 3)
-}

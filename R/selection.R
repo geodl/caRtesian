@@ -9,6 +9,7 @@
 #' @param functionNodeStructure the parameters used when creating functionNodes
 #'
 #' @return a new population containing the parent used and the offspring
+#' @export
 #'
 muLambdaStrategy <- function(population, lambda, functionNodeStructure) {
 

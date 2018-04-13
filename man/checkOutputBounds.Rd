@@ -20,8 +20,3 @@ if each column specified is within the range of 1 and numCol, and that at
 least 1 column will remain to be used as input if using all output column
 choices.
 }
-\examples{
-checkOutputBounds(ncol(dataset), c(4, 5))
-checkOutputBounds(5, list(3, 5))
-checkOutputBounds(7, 3)
-}

@@ -20,7 +20,3 @@ a matrix containing the updated valid input chromoIDs
 Replaces the no longer valid chromoIDs with the new level of
 valid chromoIDs
 }
-\examples{
-updateValidInputIDs(2, c(3, 4, 5), validInputs)
-updateValidInputIDs(4, c(7, 8), validInputs)
-}

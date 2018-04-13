@@ -16,7 +16,3 @@ the number of terms on the left hand side of the model
 Calculates the output size from a given model. The output size is the
 number of terms on the left hand side of the model.
 }
-\examples{
-calculateOutputSize(output ~ x + y)
-calculateOutputSize(Class + Type ~ x + y + z)
-}

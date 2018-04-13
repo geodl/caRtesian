@@ -21,8 +21,3 @@ Creates a valid function node using the chromoID and value passed as a
 parameter. A random function is chosen from the functionSet and random inputs
 are chosen to satisfy the arity of the chosen function.
 }
-\examples{
-makeFunctionNode(chromoID = 3)
-makeFunctionNode(4)
-
-}

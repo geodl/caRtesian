@@ -16,7 +16,3 @@ the number of terms on the right hand side of the model
 Calculates the input size from a given model. The input size is the
 number of terms on the right hand side of the model.
 }
-\examples{
-calculateInputSize(output ~ x + y)
-calculateInputtSize(Class + Type ~ x + y + z)
-}

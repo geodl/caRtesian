@@ -20,7 +20,3 @@ the result of the sample function on x
 Perform the sample function after removing any duplicate or NA values from
 the vector
 }
-\examples{
-sampleWithoutBiasOrNA(c(1, 2, 3, 1), 2)
-sampleWithoutBiasOrNA(c(3, 4, NA), 4, replace = TRUE)
-}

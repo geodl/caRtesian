@@ -11,3 +11,6 @@ LazyData: true
 RoxygenNote: 6.0.1
 BugReports: https://github.com/porteous54/caRtesian/issues
 Suggests: testthat
+Imports: ggplot2,
+         plotly,
+         shiny

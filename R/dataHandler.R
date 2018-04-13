@@ -7,9 +7,7 @@
 #' @param outputColumns a vector containing integers to specify the columns
 #'
 #' @return the data frame after transformation
-#' @examples
-#' transformDataset(dataset, c(3, 4))
-#' transformDataset(dataset, 4)
+#'
 transformDataset <- function(dataset, outputColumns) {
 
   if (!checkOutputBounds(ncol(dataset), outputColumns)) {
@@ -39,10 +37,7 @@ transformDataset <- function(dataset, outputColumns) {
 #' @param outputColumns a vector containing integers to specify the columns
 #'
 #' @return a boolean of if the choices were valid or not
-#' @examples
-#' checkOutputBounds(ncol(dataset), c(4, 5))
-#' checkOutputBounds(5, list(3, 5))
-#' checkOutputBounds(7, 3)
+#'
 checkOutputBounds <- function(numCol, outputColumns) {
 
   #Check there will still be an input column if using these outputColumns
@@ -65,6 +60,8 @@ checkOutputBounds <- function(numCol, outputColumns) {
 #' @param model a formula containing the variables to extract
 #'
 #' @return a dataset containing only the extracted fields
+#' @importFrom stats model.frame
+#'
 extractRequiredFields <- function(dataset, model) {
 
   out <- tryCatch({
@@ -99,10 +96,7 @@ extractRequiredFields <- function(dataset, model) {
 #' @param model the formula to calculate the output size of
 #'
 #' @return the number of terms on the left hand side of the model
-
-#' @examples
-#' calculateOutputSize(output ~ x + y)
-#' calculateOutputSize(Class + Type ~ x + y + z)
+#'
 calculateOutputSize <- function(model) {
   return(length(all.vars(model[[2]])))
 }
@@ -115,10 +109,7 @@ calculateOutputSize <- function(model) {
 #' @param model the formula to calculate the input size of
 #'
 #' @return the number of terms on the right hand side of the model
-
-#' @examples
-#' calculateInputSize(output ~ x + y)
-#' calculateInputtSize(Class + Type ~ x + y + z)
+#'
 calculateInputSize <- function(model) {
   return(length(all.vars(model[[3]])))
 }
@@ -131,8 +122,14 @@ calculateInputSize <- function(model) {
 #' @param arguments A list containing the function and arguments
 #'
 #' @return a boolean stating if the arguments are valid
+#' @export
 #' @examples
-#' validSelectionInput(list(func = foo, args = c(population = NA, ...)))
+#'
+#' foo <- function() {}
+#'
+#' #Extra parameters to be added in the args member to match the parameters
+#' #foo expects
+#' validSelectionInput(list(func = foo, args = c(population = NA)))
 validSelectionInput <- function(arguments) {
 
   expectedArgsLength <- length(formals(arguments$func))

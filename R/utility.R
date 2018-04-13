@@ -8,9 +8,7 @@
 #' @param replace should sampling be with replacement?
 #'
 #' @return the result of the sample function on x
-#' @examples
-#' sampleWithoutBiasOrNA(c(1, 2, 3, 1), 2)
-#' sampleWithoutBiasOrNA(c(3, 4, NA), 4, replace = TRUE)
+#'
 sampleWithoutBiasOrNA <- function(x, size, replace = FALSE) {
 
   #Convert matrix to vector
@@ -131,6 +129,7 @@ findRow <- function(solution, chromoID) {
 #' @param population the population to be sorted
 #'
 #' @return the population after sorting
+#'
 sortPopulation <- function(population) {
 
   #Extract the fitness values from the population
@@ -151,6 +150,7 @@ sortPopulation <- function(population) {
 #' @param population the population of all solutions
 #'
 #' @return returns NULL
+#'
 printEvolutionDetails <- function(currGeneration, maxGeneration,
                                   bestSolution, population) {
 
@@ -265,16 +265,17 @@ buildSolutionText <- function(functionNodes, functionSet, chromoID) {
 #' shiny window through the browser.
 #'
 #' @param plotData the data to plot
+#' @export
+#' @importFrom ggplot2 ggplot aes geom_line geom_point scale_x_continuous
+#' @importFrom ggplot2 xlab ylab ggtitle
+#' @importFrom plotly plotlyOutput renderPlotly
+#' @importFrom shiny fluidPage shinyApp
 #'
 plotGraph <- function(plotData) {
 
   #This function was adapted from Michael Majka's answer on Stack Overflow
   #The thread can be found here:
   #https://stackoverflow.com/a/38919892/4474422
-
-  library(ggplot2)
-  library(shiny)
-  library(plotly)
 
   rows <- nrow(plotData)
   breaks <- round(c(1, rows * 0.125, rows * 0.25, rows * 0.375, rows * 0.5,
@@ -286,7 +287,7 @@ plotGraph <- function(plotData) {
 
   server <- function(input, output) {
     output$fitnessPlot <- renderPlotly({
-      ggplot(plotData, aes(x = generation, y = bestFitness)) +
+      ggplot(plotData, aes(x = plotData$generation, y = plotData$bestFitness)) +
         geom_line(colour = "firebrick") +
         geom_point(colour = "firebrick") +
         scale_x_continuous(breaks = breaks) +

@@ -13,7 +13,9 @@
 #' @param levelsBack the number of columns back that a function node can access
 #'
 #' @return a list containing the created population
+#' @importFrom utils tail
 #' @export
+#'
 initPopulation <- function(popsize, functionSet, inputSize, outputSize,
                            rowsFuncNodes, colsFuncNodes, levelsBack) {
 
@@ -54,6 +56,7 @@ initPopulation <- function(popsize, functionSet, inputSize, outputSize,
 #' @param inputSize the number of input nodes required
 #'
 #' @return a data frame containing the input nodes
+#'
 generateInputs <- function(inputSize) {
 
   inputSize <- inputSize + 1
@@ -83,9 +86,6 @@ generateInputs <- function(inputSize) {
 #'
 #' @return a data frame containing the function nodes
 #'
-#' @examples
-#' generateFunctionNodes(2, 4, 2)
-#' generateFunctionNodes(nrows = 3, ncols = 4, levelsBack = 3)
 generateFunctionNodes <- function(startID, nrows, ncols, levelsBack,
                                   functionSet) {
 
@@ -153,6 +153,7 @@ generateFunctionNodes <- function(startID, nrows, ncols, levelsBack,
 #' @param outputSize the number of output nodes required
 #'
 #' @return a data frame containing the output nodes
+#'
 generateOutputs <- function(startID, maxInputID, outputSize) {
 
   chromoID <- seq.int(from = startID, by = 1, length.out = outputSize)
@@ -170,8 +171,7 @@ generateOutputs <- function(startID, maxInputID, outputSize) {
 #' @param rowsRequired the number of rows to create
 #'
 #' @return the data frame created
-#' @examples
-#' createFunctionNodesStructure()
+#'
 createFunctionNodesStructure <- function(rowsRequired) {
 
   #Create integer vectors containing rowsRequired NA values
@@ -199,9 +199,6 @@ createFunctionNodesStructure <- function(rowsRequired) {
 #' @param functionSet the functions to choose from
 #'
 #' @return the node created
-#' @examples
-#' makeFunctionNode(chromoID = 3)
-#' makeFunctionNode(4)
 #'
 makeFunctionNode <- function(chromoID, validInputs, functionSet) {
 
@@ -236,10 +233,7 @@ makeFunctionNode <- function(chromoID, validInputs, functionSet) {
 #' @param validInputs a matrix containing the valid input chromoIDs
 #'
 #' @return a matrix containing the updated valid input chromoIDs
-
-#' @examples
-#' updateValidInputIDs(2, c(3, 4, 5), validInputs)
-#' updateValidInputIDs(4, c(7, 8), validInputs)
+#'
 updateValidInputs <- function(row, level, validInputs) {
 
   #Add NAs to level so it can fit in the matrix

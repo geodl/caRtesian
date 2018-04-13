@@ -322,6 +322,7 @@ calculateValue2 <- function(node, solution, functionSet) {
 #' @param functionSet the functionSet used when creating the solution
 #'
 #' @return the value calculated
+#' @export
 #'
 decode2 <- function(solution, functionSet) {
 
