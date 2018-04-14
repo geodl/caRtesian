@@ -4,18 +4,19 @@
 \alias{updateValidInputs}
 \title{updateValidInputs}
 \usage{
-updateValidInputs(row, level)
+updateValidInputs(row, level, validInputs)
 }
 \arguments{
 \item{row}{the row to replace}
 
 \item{level}{the new valid chromoIDs}
+
+\item{validInputs}{a matrix containing the valid input chromoIDs}
+}
+\value{
+a matrix containing the updated valid input chromoIDs
 }
 \description{
 Replaces the no longer valid chromoIDs with the new level of
 valid chromoIDs
-}
-\examples{
-updateValidInputIDs(2, c(3, 4, 5))
-updateValidInputIDs(4, c(7, 8))
 }

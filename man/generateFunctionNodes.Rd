@@ -4,14 +4,18 @@
 \alias{generateFunctionNodes}
 \title{generateFunctionNodes}
 \usage{
-generateFunctionNodes(nrows, ncols, levelsBack)
+generateFunctionNodes(startID, nrows, ncols, levelsBack, functionSet)
 }
 \arguments{
+\item{startID}{the starting chromoID}
+
 \item{nrows}{the number of rows required in the chromosome}
 
 \item{ncols}{the number of columns required in the chromosome}
 
 \item{levelsBack}{the number of columns back that each column can access}
+
+\item{functionSet}{the functions to choose from}
 }
 \value{
 a data frame containing the function nodes
@@ -23,8 +27,4 @@ Each row is given a unique ID (chromoID) which is unique within the entire
 chromosome. The value field of each row is set as NA initially. The funcID
 field is the ID a random function chosen from the functionSet. The input
 field is a vector of valid nodes to use as arguments to the function field.
-}
-\examples{
-generateFunctionNodes(2, 4, 2)
-generateFunctionNodes(nrows = 3, ncols = 4, levelsBack = 3)
 }

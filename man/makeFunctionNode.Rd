@@ -4,10 +4,14 @@
 \alias{makeFunctionNode}
 \title{makeFunctionNode}
 \usage{
-makeFunctionNode(chromoID)
+makeFunctionNode(chromoID, validInputs, functionSet)
 }
 \arguments{
 \item{chromoID}{the unique ID of the node}
+
+\item{validInputs}{a vector containing the valid input chromoIDs}
+
+\item{functionSet}{the functions to choose from}
 }
 \value{
 the node created
@@ -16,9 +20,4 @@ the node created
 Creates a valid function node using the chromoID and value passed as a
 parameter. A random function is chosen from the functionSet and random inputs
 are chosen to satisfy the arity of the chosen function.
-}
-\examples{
-makeFunctionNode(chromoID = 3)
-makeFunctionNode(4)
-
 }

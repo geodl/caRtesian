@@ -1,26 +1,102 @@
+#' arithmeticSet
+#'
+#' Creates a function set containing the basic arithmetic operators (+, -, *, /)
+#'
+#' @return the function set created
+#' @export
+#' @examples
+#' arithmeticSet()
 arithmeticSet <- function() {
 
-  functionNames <- c("add", "subtract", "multiply", "divide")
-  arity <- c(2, 2, 2, 2)
-  functionSet.df <- data.frame(functionNames, arity, stringsAsFactors = FALSE)
+  #functionDefs <- c(c("+", 2),
+  #                  c("-", 2),
+  #                  c("*", 2),
+  #                  c("/", 2))
 
-  #do.call(functionSet.df[3,1], list(2, 3))
+  functionDefs <- c(c("+", 2),
+                    c("-", 2),
+                    c("*", 2))
 
-  return(functionSet.df)
+  return(constructFuncSet(functionDefs))
 }
 
-add <- function(x, y) {
-  return(x + y)
+#' trigonometricSet
+#'
+#' Creates a function set containing the trigonometric operators (sin, cos, tan)
+#'
+#' @return the function set created
+#' @export
+#' @examples
+#' trigonometricSet()
+trigonometricSet <- function() {
+
+  functionDefs <- c(c("sin", 1),
+                    c("cos", 1),
+                    c("tan", 1))
+
+  return(constructFuncSet(functionDefs))
 }
 
-subtract <- function(x, y) {
-  return(x - y)
+#' complexSet
+#'
+#' Creates a function set containing the log, exp and sqrt functions
+#'
+#' @return the function set created
+#' @export
+#' @examples
+#' complexSet()
+complexSet <- function() {
+
+  #functionDefs <- c(c("log", 1),
+  #                  c("log", 2),
+  #                  c("exp", 1),
+  #                  c("sqrt", 1),
+  #                  c("abs", 1),
+  #                  c("floor", 1),
+  #                  c("ceiling", 1))
+
+  functionDefs <- c(c("exp", 1),
+                    c("sqrt", 1),
+                    c("abs", 1),
+                    c("floor", 1),
+                    c("ceiling", 1))
+
+  return(constructFuncSet(functionDefs))
 }
 
-multiply <- function(x, y) {
-  return(x * y)
+#' mathOpSet
+#'
+#' Creates a function set containing the functions from the other sets defined
+#' in the package
+#'
+#' @return the function set created
+#' @export
+#' @examples
+#' mathOpSet()
+mathOpSet <- function() {
+
+  return(rbind(arithmeticSet(), trigonometricSet(), complexSet()))
 }
 
-divide <- function(x, y) {
-  return (x / y)
+#' constructFuncSet
+#'
+#' Constructs a function set using the provided function definitions.
+#'
+#' @param functionDefs the function definitions
+#'
+#' @return the function set created
+#' @export
+#' @examples
+#' constructFuncSet(c(c("add", 2), c("sqrt", 1)))
+constructFuncSet <- function(functionDefs) {
+
+  functionSet <- data.frame(matrix(data = functionDefs, ncol = 2, byrow = TRUE),
+                            stringsAsFactors = FALSE)
+
+  colnames(functionSet) <- c("funcName", "arity")
+
+  #Restore the integer value of arity
+  functionSet <- transform(functionSet, arity = as.integer(functionSet$arity))
+
+  return(functionSet)
 }

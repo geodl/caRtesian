@@ -4,13 +4,17 @@
 \alias{generateInputs}
 \title{generateInputs}
 \usage{
-generateInputs()
+generateInputs(inputSize)
+}
+\arguments{
+\item{inputSize}{the number of input nodes required}
 }
 \value{
 a data frame containing the input nodes
 }
 \description{
-Generates a data frame containing a row for each input attribute. Each row is
-given a unique ID (chromoID) which is unique within the entire chromosome.
-The value field of each row is set as NA initially.
+Generates a data frame containing a row for each input attribute and another
+row used to store numeric constants. Each row isgiven a unique ID (chromoID)
+which is unique within the entire chromosome. The value field of each row is
+set as NA initially except for the numeric constant which is initialised.
 }
