@@ -96,7 +96,7 @@ constructFuncSet <- function(functionDefs) {
   colnames(functionSet) <- c("funcName", "arity")
 
   #Restore the integer value of arity
-  functionSet <- transform(functionSet, arity = as.integer(arity))
+  functionSet <- transform(functionSet, arity = as.integer(functionSet$arity))
 
   return(functionSet)
 }
