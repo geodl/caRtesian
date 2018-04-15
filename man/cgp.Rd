@@ -7,7 +7,7 @@
 cgp(dataset, model, functionSet = mathOpSet(), maxGenerations,
   fitnessFunction = mae, selectionMethod = list(func = muLambdaStrategy,
   args = c(population = NA, 4, NA)), rowsFuncNodes, colsFuncNodes, levelsBack,
-  popSize = 5)
+  popSize = 5, updateFreq = 10)
 }
 \arguments{
 \item{dataset}{the dataset to use for training}
@@ -29,6 +29,8 @@ cgp(dataset, model, functionSet = mathOpSet(), maxGenerations,
 \item{levelsBack}{the number of columns back that a function node can access}
 
 \item{popSize}{the number of solutions to generate in each generation}
+
+\item{updateFreq}{how many generations pass between updates on progress}
 }
 \value{
 a list containing the best solution found and the chosen functionSet
