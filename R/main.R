@@ -46,6 +46,7 @@ cgp <- function(dataset, model, functionSet = mathOpSet(),
   args <- selectionMethod$args
   currGeneration <- 0
   solutionFound <- FALSE
+  updateCount <- updateFreq
 
   #Wrap the parameters used to create the functionNodes into a list
   functionNodeStructure <- list(rows = rowsFuncNodes,
@@ -67,8 +68,8 @@ cgp <- function(dataset, model, functionSet = mathOpSet(),
     population <- sortPopulation(population)
     bestSolution <- population[[1]]
 
-    printEvolutionDetails(currGeneration, maxGenerations,
-                          bestSolution, population, updateFreq)
+    updateCount <- printEvolutionDetails(currGeneration, maxGenerations,
+                          bestSolution, population, updateFreq, updateCount)
 
     #Store the fitness data in plotData
     avgFitness <- mean(sapply(population, "[[", "fitness"))

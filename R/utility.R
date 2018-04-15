@@ -149,25 +149,29 @@ sortPopulation <- function(population) {
 #' @param bestSolution the best solution found so far
 #' @param population the population of all solutions
 #' @param updateFreq how many generations pass between progress updates
+#' @param updateCount how many generations have passed since last update
 #'
-#' @return NULL
+#' @return updateCount + 1
 #'
 printEvolutionDetails <- function(currGeneration, maxGeneration,
-                                  bestSolution, population, updateFreq) {
+                                  bestSolution, population,
+                                  updateFreq, updateCount) {
 
   #Catch the case where the user does not want progress updates
   if(updateFreq == 0) {
     return(updateFreq)
 
     #If this is a generation to print information of
-  } else if(currGeneration %% updateFreq == 1) {
+  } else if(updateCount == updateFreq) {
     avgFitness <- mean(sapply(population, "[[", "fitness"))
     cat("\nGeneration:", currGeneration, "/", maxGeneration)
     cat("\nFitness of best solution so far:", bestSolution$fitness)
     cat("\nAverage fitness of population:", avgFitness, "\n")
+
+    updateCount <- 1
   }
 
-  return(NULL)
+  return(updateCount + 1)
 }
 
 #' printFinalDetails
@@ -267,22 +271,22 @@ buildSolutionText <- function(functionNodes, functionSet, chromoID) {
     inputs <- currentNode$inputs[[1]]
 
     #Create the structure for a one parameter function
-    functionText <- paste(func$funcName, "(x)", sep = "")
+    functionText <- paste(func$funcName, "(arg1)", sep = "")
 
     if (func$arity == 2) {
       #Create the structure for a two parameter function
-      functionText <- paste("(x ", func$funcName, " y)", sep = "")
+      functionText <- paste("(arg1 ", func$funcName, " arg2)", sep = "")
 
       rightArgument <- buildSolutionText(functionNodes, functionSet, inputs[2])
 
       #Replace the x and y character by the rightArgument
-      functionText <- gsub("y", rightArgument, functionText)
+      functionText <- gsub("arg2", rightArgument, functionText)
     }
 
     leftArgument <- buildSolutionText(functionNodes, functionSet, inputs[1])
 
     #Replace the y character by the argument
-    functionText <- gsub("x", leftArgument, functionText)
+    functionText <- gsub("arg1", leftArgument, functionText)
   }
 
   return(functionText)
