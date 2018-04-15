@@ -12,6 +12,7 @@
 #' @param colsFuncNodes the number of columns to use in the function node structure
 #' @param levelsBack the number of columns back that a function node can access
 #' @param popSize the number of solutions to generate in each generation
+#' @param updateFreq how many generations pass between updates on progress
 #'
 #' @return a list containing the best solution found and the chosen functionSet
 #' @export
@@ -20,7 +21,7 @@ cgp <- function(dataset, model, functionSet = mathOpSet(),
                 selectionMethod = list(func = muLambdaStrategy,
                                        args = c(population = NA, 4, NA)),
                 rowsFuncNodes, colsFuncNodes, levelsBack,
-                popSize = 5) {
+                popSize = 5, updateFreq = 10) {
 
   #Extract only the required fields from the dataset
   dataset <- extractRequiredFields(dataset, model)
@@ -64,7 +65,7 @@ cgp <- function(dataset, model, functionSet = mathOpSet(),
     bestSolution <- population[[1]]
 
     printEvolutionDetails(currGeneration, maxGenerations,
-                          bestSolution, population)
+                          bestSolution, population, updateFreq)
 
     #Store the fitness data in plotData
     avgFitness <- mean(sapply(population, "[[", "fitness"))
@@ -86,8 +87,7 @@ cgp <- function(dataset, model, functionSet = mathOpSet(),
   #Store the best solution found
   bestSolution <- sortPopulation(population)[[1]]
 
-  printEvolutionDetails(currGeneration, maxGenerations,
-                        bestSolution, population)
+  printFinalDetails(currGeneration, maxGenerations, bestSolution, population)
 
   #Store the fitness data in plotData
   avgFitness <- mean(sapply(population, "[[", "fitness"))
