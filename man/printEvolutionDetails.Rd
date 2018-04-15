@@ -5,7 +5,7 @@
 \title{printEvolutionDetails}
 \usage{
 printEvolutionDetails(currGeneration, maxGeneration, bestSolution, population,
-  updateFreq)
+  updateFreq, updateCount)
 }
 \arguments{
 \item{currGeneration}{the current generation of evolution}
@@ -17,6 +17,11 @@ printEvolutionDetails(currGeneration, maxGeneration, bestSolution, population,
 \item{population}{the population of all solutions}
 
 \item{updateFreq}{how many generations pass between progress updates}
+
+\item{updateCount}{how many generations have passed since last update}
+}
+\value{
+updateCount + 1
 }
 \description{
 Print information about the progress of evolution
