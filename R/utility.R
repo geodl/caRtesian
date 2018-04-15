@@ -267,22 +267,22 @@ buildSolutionText <- function(functionNodes, functionSet, chromoID) {
     inputs <- currentNode$inputs[[1]]
 
     #Create the structure for a one parameter function
-    functionText <- paste(func$funcName, "(x)", sep = "")
+    functionText <- paste(func$funcName, "(arg1)", sep = "")
 
     if (func$arity == 2) {
       #Create the structure for a two parameter function
-      functionText <- paste("(x ", func$funcName, " y)", sep = "")
+      functionText <- paste("(arg1 ", func$funcName, " arg2)", sep = "")
 
       rightArgument <- buildSolutionText(functionNodes, functionSet, inputs[2])
 
       #Replace the x and y character by the rightArgument
-      functionText <- gsub("y", rightArgument, functionText)
+      functionText <- gsub("arg2", rightArgument, functionText)
     }
 
     leftArgument <- buildSolutionText(functionNodes, functionSet, inputs[1])
 
     #Replace the y character by the argument
-    functionText <- gsub("x", leftArgument, functionText)
+    functionText <- gsub("arg1", leftArgument, functionText)
   }
 
   return(functionText)
