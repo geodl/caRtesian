@@ -12,6 +12,7 @@
 #' @param colsFuncNodes the number of columns to use in the function node structure
 #' @param levelsBack the number of columns back that a function node can access
 #' @param popSize the number of solutions to generate in each generation
+#' @param updateFreq how many generations pass between updates on progress
 #'
 #' @return a list containing the best solution found and the chosen functionSet
 #' @export
@@ -20,10 +21,13 @@ cgp <- function(dataset, model, functionSet = mathOpSet(),
                 selectionMethod = list(func = muLambdaStrategy,
                                        args = c(population = NA, 4, NA)),
                 rowsFuncNodes, colsFuncNodes, levelsBack,
-                popSize = 5) {
+                popSize = 5, updateFreq = 10) {
 
   #Extract only the required fields from the dataset
   dataset <- extractRequiredFields(dataset, model)
+
+  #Group the dataset and model into a single list
+  dataModel <- list(dataset = dataset, model = model)
 
   #Calculate the input and output sizes
   inputSize <- calculateInputSize(model)
@@ -34,7 +38,7 @@ cgp <- function(dataset, model, functionSet = mathOpSet(),
                                rowsFuncNodes, colsFuncNodes, levelsBack)
 
   #Calculate the fitness values of the population
-  population <- calculatePopFitness(population, dataset, fitnessFunction,
+  population <- calculatePopFitness(population, dataModel, fitnessFunction,
                                     functionSet)
 
   #Setup variables required for evolutionary process
@@ -64,7 +68,7 @@ cgp <- function(dataset, model, functionSet = mathOpSet(),
     bestSolution <- population[[1]]
 
     printEvolutionDetails(currGeneration, maxGenerations,
-                          bestSolution, population)
+                          bestSolution, population, updateFreq)
 
     #Store the fitness data in plotData
     avgFitness <- mean(sapply(population, "[[", "fitness"))
@@ -76,7 +80,7 @@ cgp <- function(dataset, model, functionSet = mathOpSet(),
     population <- selection(population, args[2], functionNodeStructure)
 
     #Calculate the fitness of the new population
-    population <- calculatePopFitness(population, dataset,
+    population <- calculatePopFitness(population, dataModel,
                                       fitnessFunction, functionSet)
 
     #Check if a solution has been found
@@ -86,17 +90,13 @@ cgp <- function(dataset, model, functionSet = mathOpSet(),
   #Store the best solution found
   bestSolution <- sortPopulation(population)[[1]]
 
-  printEvolutionDetails(currGeneration, maxGenerations,
-                        bestSolution, population)
+  printFinalDetails(currGeneration, maxGenerations, bestSolution, population)
 
   #Store the fitness data in plotData
   avgFitness <- mean(sapply(population, "[[", "fitness"))
   plotData[currGeneration, ] <- c(currGeneration,
                                   bestSolution$fitness,
                                   avgFitness)
-
-  #Load a plot of the data
-  plotGraph(plotData)
 
   #Extract only the nodes used to get an output value
   bestSolution <- extractRequiredNodes(bestSolution)
