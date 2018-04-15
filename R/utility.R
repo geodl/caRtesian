@@ -298,7 +298,7 @@ buildSolutionText <- function(functionNodes, functionSet, chromoID) {
 #' @importFrom ggplot2 ggplot aes geom_line geom_point scale_x_continuous
 #' @importFrom ggplot2 xlab ylab ggtitle
 #' @importFrom plotly plotlyOutput renderPlotly
-#' @importFrom shiny fluidPage shinyApp
+#' @importFrom shiny fluidPage shinyApp runApp
 #'
 plotGraph <- function(plotData) {
 
@@ -325,5 +325,7 @@ plotGraph <- function(plotData) {
     })
   }
 
-  shinyApp(ui = ui, server = server)
+  app = shinyApp(ui = ui, server = server)
+
+  runApp(app)
 }
