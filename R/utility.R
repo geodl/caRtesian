@@ -160,7 +160,6 @@ printEvolutionDetails <- function(currGeneration, maxGeneration,
   #Catch the case where the user does not want progress updates
   if(updateFreq == 0) {
     return(updateFreq)
-
     #If this is a generation to print information of
   } else if(updateCount == updateFreq) {
     avgFitness <- mean(sapply(population, "[[", "fitness"))
@@ -168,10 +167,12 @@ printEvolutionDetails <- function(currGeneration, maxGeneration,
     cat("\nFitness of best solution so far:", bestSolution$fitness)
     cat("\nAverage fitness of population:", avgFitness, "\n")
 
-    updateCount <- 1
+    #Reset updateCount
+    return(1)
+  } else {
+    #Increment updateCount
+    return(updateCount + 1)
   }
-
-  return(updateCount + 1)
 }
 
 #' printFinalDetails
