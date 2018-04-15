@@ -26,6 +26,9 @@ cgp <- function(dataset, model, functionSet = mathOpSet(),
   #Extract only the required fields from the dataset
   dataset <- extractRequiredFields(dataset, model)
 
+  #Group the dataset and model into a single list
+  dataModel <- list(dataset = dataset, model = model)
+
   #Calculate the input and output sizes
   inputSize <- calculateInputSize(model)
   outputSize <- calculateOutputSize(model)
@@ -35,7 +38,7 @@ cgp <- function(dataset, model, functionSet = mathOpSet(),
                                rowsFuncNodes, colsFuncNodes, levelsBack)
 
   #Calculate the fitness values of the population
-  population <- calculatePopFitness(population, dataset, fitnessFunction,
+  population <- calculatePopFitness(population, dataModel, fitnessFunction,
                                     functionSet)
 
   #Setup variables required for evolutionary process
@@ -77,7 +80,7 @@ cgp <- function(dataset, model, functionSet = mathOpSet(),
     population <- selection(population, args[2], functionNodeStructure)
 
     #Calculate the fitness of the new population
-    population <- calculatePopFitness(population, dataset,
+    population <- calculatePopFitness(population, dataModel,
                                       fitnessFunction, functionSet)
 
     #Check if a solution has been found

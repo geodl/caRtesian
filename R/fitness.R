@@ -1,20 +1,21 @@
 #' calculatePopFitness
 #'
-#' Calculates the fitness of each element in the population
+#' Calculates the fitness of each solution in the population
 #'
-#' @param population the list of elements to be evaluated
-#' @param dataset the dataset used to evaluate the element against
+#' @param population the list of solutions to be evaluated
+#' @param dataModel a list containing the the dataset used to evaluate each
+#' solution against and a formula for the model of the dataset
 #' @param fitnessFunction the fitness function to use
 #' @param functionSet the functionSet used with the population
 #'
 #' @return the population with fitness values nested inside
 #'
-calculatePopFitness <- function(population, dataset,
+calculatePopFitness <- function(population, dataModel,
                                 fitnessFunction, functionSet) {
 
   for (i in 1:length(population)) {
 
-    fitness <- calculateFitness(population[[i]], dataset, fitnessFunction,
+    fitness <- calculateFitness(population[[i]], dataModel, fitnessFunction,
                                functionSet)
 
     population[[i]]$fitness <- fitness
@@ -23,7 +24,25 @@ calculatePopFitness <- function(population, dataset,
   return(population)
 }
 
-calculateFitness <- function(solution, dataset, fitnessFunction, functionSet) {
+#' calculateFitness
+#'
+#' Calculates the fitness of a solution
+#'
+#' @param solution the solution to be evaluated
+#' @param dataModel a list containing the the dataset used to evaluate each
+#' solution against and a formula for the model of the dataset
+#' @param fitnessFunction the fitness function to use
+#' @param functionSet the functionSet used with the population
+#'
+#' @return the fitness value of the solution
+#'
+calculateFitness <- function(solution, dataModel, fitnessFunction, functionSet) {
+
+  #Prepare variables used for working with data
+  dataset <- dataModel$dataset
+  model <- dataModel$model
+  output <- model[[2]]
+  indexOfOutput <- which(colnames(dataset) == output)
 
   #Get only the required nodes
   functionNodesUsed <- nodesToProcess(solution)
@@ -50,7 +69,7 @@ calculateFitness <- function(solution, dataset, fitnessFunction, functionSet) {
 
 
   #Combine the dataset outputs and results into a single list
-  outputs <- data.frame(actual = dataset$output, predicted = results)
+  outputs <- data.frame(actual = dataset[[indexOfOutput]], predicted = results)
 
   return(fitnessFunction(outputs))
 }
