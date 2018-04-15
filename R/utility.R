@@ -149,25 +149,29 @@ sortPopulation <- function(population) {
 #' @param bestSolution the best solution found so far
 #' @param population the population of all solutions
 #' @param updateFreq how many generations pass between progress updates
+#' @param updateCount how many generations have passed since last update
 #'
-#' @return NULL
+#' @return updateCount + 1
 #'
 printEvolutionDetails <- function(currGeneration, maxGeneration,
-                                  bestSolution, population, updateFreq) {
+                                  bestSolution, population,
+                                  updateFreq, updateCount) {
 
   #Catch the case where the user does not want progress updates
   if(updateFreq == 0) {
     return(updateFreq)
 
     #If this is a generation to print information of
-  } else if(currGeneration %% updateFreq == 1) {
+  } else if(updateCount == updateFreq) {
     avgFitness <- mean(sapply(population, "[[", "fitness"))
     cat("\nGeneration:", currGeneration, "/", maxGeneration)
     cat("\nFitness of best solution so far:", bestSolution$fitness)
     cat("\nAverage fitness of population:", avgFitness, "\n")
+
+    updateCount <- 1
   }
 
-  return(NULL)
+  return(updateCount + 1)
 }
 
 #' printFinalDetails
