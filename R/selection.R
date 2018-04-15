@@ -27,6 +27,59 @@ muLambdaStrategy <- function(population, lambda, functionNodeStructure) {
   return(c(list(parent), offspring))
 }
 
+#' tournamentSelectionStrategy
+#'
+#' Runs Tournament Selection and returns a new population generated from the
+#' solution Tournament Selection produced.
+#'
+#' @param population the population to be evolved
+#' @param tournamentSize the number of samples to take
+#' @param functionNodeStructure the parameters used when creating functionNodes
+#'
+#' @return a new population containing the parent used and the offspring
+#' @export
+#'
+tournamentSelectionStrategy <- function(population, tournamentSize,
+                                        functionNodeStructure) {
+
+  #Get an individual to use as a parent
+  parent <- tournamentSelection(population, tournamentSize)[[1]]
+
+  offspring <- vector(mode = "list", length = tournamentSize)
+
+  for (i in 1:tournamentSize) {
+
+    offspring[[i]] <- pointMutation(parent, functionNodeStructure)
+
+  }
+
+  return(c(list(parent), offspring))
+}
+
+#' tournamentSelection
+#'
+#' Performs Tournament Selection on the population by taking a sample of the
+#' population (can be duplicates) and returning the individual with the best
+#' fitness.
+#'
+#' @param population the population to sample
+#' @param tournamentSize the number of samples to take
+#'
+#' @return the individual with the best fitness
+#' @export
+#'
+tournamentSelection <- function(population, tournamentSize) {
+
+  #Choose tournamentSize individuals from the population (can be duplicates)
+  chosenIndividuals <- sample(population, size = tournamentSize, replace = TRUE)
+
+  #Find the index of the lowest fitness value
+  bestIndex <- which.min(sapply(chosenIndividuals, "[[", "fitness"))
+
+  #Return the best indiviual found
+  return(chosenIndividuals[bestIndex])
+}
+
 #' pointMutation
 #'
 #' Peforms point mutation on the solution. It changes up to 5% of the genes
