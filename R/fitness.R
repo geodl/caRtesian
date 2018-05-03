@@ -36,7 +36,8 @@ calculatePopFitness <- function(population, dataModel,
 #'
 #' @return the fitness value of the solution
 #'
-calculateFitness <- function(solution, dataModel, fitnessFunction, functionSet) {
+calculateFitness <- function(solution, dataModel,
+                             fitnessFunction, functionSet) {
 
   #Prepare variables used for working with data
   dataset <- dataModel$dataset

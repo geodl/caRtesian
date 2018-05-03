@@ -21,7 +21,7 @@ test_that("muLambdaStrategy returns the correct number of results", {
 
   lambda <- 4
 
-  newPopulation <- muLambdaStrategy(population, lambda,functionNodeStructure)
+  newPopulation <- muLambdaStrategy(population, lambda, functionNodeStructure)
 
   expect_equal(length(newPopulation), 1 + lambda)
 

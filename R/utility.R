@@ -158,10 +158,10 @@ printEvolutionDetails <- function(currGeneration, maxGeneration,
                                   updateFreq, updateCount) {
 
   #Catch the case where the user does not want progress updates
-  if(updateFreq == 0) {
+  if (updateFreq == 0) {
     return(updateFreq)
     #If this is a generation to print information of
-  } else if(updateCount == updateFreq) {
+  } else if (updateCount == updateFreq) {
     avgFitness <- mean(sapply(population, "[[", "fitness"))
     cat("\nGeneration:", currGeneration, "/", maxGeneration)
     cat("\nFitness of best solution so far:", bestSolution$fitness)
@@ -330,7 +330,7 @@ plotGraph <- function(plotData) {
     })
   }
 
-  app = shinyApp(ui = ui, server = server)
+  app <- shinyApp(ui = ui, server = server)
 
   runApp(app)
 }
